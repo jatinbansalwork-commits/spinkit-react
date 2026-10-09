@@ -88,6 +88,32 @@ variables from your own stylesheet: `--sk-color`, `--sk-duration`, `--sk-ease`, 
 .muted-spinner:hover { --sk-color: #4f46e5; --sk-duration: 0.4s; }
 ```
 
+## Sound feedback (optional)
+
+Short cues for when work starts, finishes or fails, from a separate entry point so the main
+bundle stays small and server-safe. Sounds are synthesized with Web Audio (no audio files), stay
+silent on touch devices, and do nothing on the server.
+
+```tsx
+import { playLoadingSound, primeLoadingSounds, setLoadingSounds } from "spinkit-react/sound";
+
+async function onExport() {
+  playLoadingSound("start"); // or primeLoadingSounds() for a silent start
+  try {
+    await exportReport();
+    playLoadingSound("done");
+  } catch {
+    playLoadingSound("error");
+  }
+}
+
+setLoadingSounds(userPrefersSound); // global on/off switch
+playLoadingSound("done", { volume: 0.5 });
+```
+
+Browsers only allow audio after a user gesture, so trigger the first sound (or
+`primeLoadingSounds()`) from the click that starts the work.
+
 ## Development
 
 ```sh

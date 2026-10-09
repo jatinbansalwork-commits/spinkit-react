@@ -5,8 +5,9 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: {
-      "spinkit-react": fileURLToPath(new URL("../src/index.ts", import.meta.url)),
-    },
+    alias: [
+      { find: /^spinkit-react\/sound$/, replacement: fileURLToPath(new URL("../src/sound.ts", import.meta.url)) },
+      { find: /^spinkit-react$/, replacement: fileURLToPath(new URL("../src/index.ts", import.meta.url)) },
+    ],
   },
 });

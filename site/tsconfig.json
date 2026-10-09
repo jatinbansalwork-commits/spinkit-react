@@ -11,7 +11,8 @@
     "noEmit": true,
     "types": ["vite/client"],
     "paths": {
-      "spinkit-react": ["../src/index.ts"]
+      "spinkit-react": ["../src/index.ts"],
+      "spinkit-react/sound": ["../src/sound.ts"]
     }
   },
   "include": ["src"]

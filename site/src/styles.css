@@ -685,6 +685,21 @@ section > p {
   color: var(--muted);
 }
 
+.sound-demo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.status[data-job="done"] {
+  color: #16a34a;
+}
+
+.status[data-job="error"] {
+  color: #dc2626;
+}
+
 .hover-brand {
   --sk-color: #94a3b8;
   cursor: pointer;

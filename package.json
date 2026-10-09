@@ -28,6 +28,16 @@
         "default": "./dist/index.cjs"
       }
     },
+    "./sound": {
+      "import": {
+        "types": "./dist/sound.d.ts",
+        "default": "./dist/sound.js"
+      },
+      "require": {
+        "types": "./dist/sound.d.cts",
+        "default": "./dist/sound.cjs"
+      }
+    },
     "./package.json": "./package.json"
   },
   "files": [

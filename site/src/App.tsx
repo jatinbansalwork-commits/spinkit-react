@@ -23,6 +23,7 @@ const NAV = [
     ["chat", "Chat and AI"],
     ["page", "Full-page loading"],
     ["play-state", "Pausing"],
+    ["sound", "Sound feedback"],
     ["styling", "Custom styling"],
     ["suspense", "Suspense and RSC"],
   ]],

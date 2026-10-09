@@ -1,5 +1,6 @@
 import { type ReactNode, useEffect, useState } from "react";
 import { Beacon, Dots, Lines, Radar, Spin, Track, Typing } from "spinkit-react";
+import { playLoadingSound, setLoadingSounds } from "spinkit-react/sound";
 import { Code } from "./Code";
 
 function Demo({ id, title, children, preview, code }: { id: string; title: string; children: ReactNode; preview: ReactNode; code: string }) {
@@ -43,6 +44,52 @@ function InputDemo() {
     <div className="input">
       <input placeholder="Search spinners…" value={value} onChange={(e) => setValue(e.target.value)} />
       {searching && <Spin size={16} label="Searching" />}
+    </div>
+  );
+}
+
+type Job = "idle" | "running" | "done" | "error";
+
+function SoundDemo() {
+  const [on, setOn] = useState(true);
+  const [job, setJob] = useState<Job>("idle");
+
+  useEffect(() => {
+    setLoadingSounds(on);
+  }, [on]);
+
+  const run = (outcome: "done" | "error") => {
+    playLoadingSound("start");
+    setJob("running");
+    setTimeout(() => {
+      playLoadingSound(outcome);
+      setJob(outcome);
+    }, 1600);
+  };
+
+  return (
+    <div className="sound-demo">
+      <div className="row">
+        <button type="button" className="btn" disabled={job === "running"} onClick={() => run("done")}>
+          {job === "running" ? <Spin size={16} label="Exporting" /> : null}
+          Export report
+        </button>
+        <button type="button" className="btn btn-ghost" disabled={job === "running"} onClick={() => run("error")}>
+          Simulate failure
+        </button>
+      </div>
+      <div className="row muted">
+        <span className="status" data-job={job}>
+          {job === "idle" && "Ready"}
+          {job === "running" && "Working…"}
+          {job === "done" && "Export finished"}
+          {job === "error" && "Export failed"}
+        </span>
+        <label className="check">
+          <input type="checkbox" checked={on} onChange={(e) => setOn(e.target.checked)} />
+          Sound
+        </label>
+      </div>
     </div>
   );
 }
@@ -218,6 +265,27 @@ export function UseCases() {
 <Radar paused />`}>
         Freeze a spinner in place with <code>playState</code> or the <code>paused</code> shorthand, for
         example when a task is waiting on the user.
+      </Demo>
+
+      <Demo
+        id="sound"
+        title="Sound feedback"
+        preview={<SoundDemo />}
+        code={`import { playLoadingSound } from "spinkit-react/sound";
+
+async function onExport() {
+  playLoadingSound("start");
+  try {
+    await exportReport();
+    playLoadingSound("done");
+  } catch {
+    playLoadingSound("error");
+  }
+}`}
+      >
+        Optional cues from <code>spinkit-react/sound</code> for when work starts, finishes or fails.
+        They're synthesized in the browser, so there are no audio files. They stay silent on touch
+        devices and can be switched off with <code>setLoadingSounds(false)</code>.
       </Demo>
 
       <Demo
