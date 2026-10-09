@@ -4,6 +4,14 @@
   "description": "Tiny, accessible, dependency-free loading spinners for React.",
   "license": "MIT",
   "author": "Jatin Bansal",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jatinbansalwork-commits/spinkit-react.git"
+  },
+  "homepage": "https://github.com/jatinbansalwork-commits/spinkit-react#readme",
+  "bugs": {
+    "url": "https://github.com/jatinbansalwork-commits/spinkit-react/issues"
+  },
   "type": "module",
   "packageManager": "pnpm@11.24.0",
   "main": "./dist/index.cjs",
