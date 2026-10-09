@@ -74,7 +74,7 @@ export function App() {
           </div>
           <h1>Loading spinners for React, done properly.</h1>
           <p className="lead">
-            {CATALOG.length} hand-tuned SVG spinners in about 15 KB. Accessible by default, respectful of
+            {CATALOG.length} hand-tuned SVG spinners in about 18 KB. Accessible by default, respectful of
             reduced motion, styled with zero CSS imports, and ready for Server Components.
           </p>
           <div className="hero-actions">

@@ -2,7 +2,7 @@
 
 Tiny, accessible, dependency-free loading spinners for React.
 
-- 28 SVG spinners, ~15 KB minified for the whole set, tree-shakable
+- 34 SVG spinners, ~18 KB minified for the whole set, tree-shakable
 - No CSS import: styles are injected once via React 19 stylesheet hoisting
 - Works in Server Components and Suspense fallbacks (no hooks, no client state)
 - `role="status"` with an accessible label
@@ -64,6 +64,12 @@ export function SaveButton({ saving }: { saving: boolean }) {
 | `Tail`      | A ring with a fading tail, like a comet      |                   |
 | `Tumble`    | A square flipping over, one axis at a time   |                   |
 | `Timer`     | A clock face with sweeping hands             |                   |
+| `Helix`     | Two strands of dots twisting like DNA        |                   |
+| `Sync`      | Two arrows cycling around each other         |                   |
+| `Cursor`    | A line being typed with a blinking caret     |                   |
+| `Progress`  | A ring filling up, fading, and starting over |                   |
+| `Spiral`    | Dots spiralling in toward the centre         |                   |
+| `Cloud`     | A cloud with an arrow rising into it         |                   |
 
 ## Props
 

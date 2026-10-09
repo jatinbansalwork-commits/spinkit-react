@@ -603,6 +603,160 @@ export function Timer(props: SpinnerProps) {
   );
 }
 
+const HELIX_XS = spread(6, 3.5, 20.5);
+
+/** Two strands of dots twisting around each other, like DNA. */
+export function Helix(props: SpinnerProps) {
+  return (
+    <Spinner
+      name="helix"
+      defaultDuration={1.6}
+      css={anim(
+        "helix",
+        "0%,100%{transform:translateY(-6px) scale(1);opacity:1}50%{transform:translateY(6px) scale(.55);opacity:.35}",
+        "ease-in-out",
+      )}
+      {...props}
+    >
+      {HELIX_XS.map((cx, i) => {
+        const o = (1 - i * 0.12 + 1) % 1;
+        return (
+          <g key={cx}>
+            <circle className="sk-a sk-f" cx={cx} cy="12" r="1.75" fill="currentColor" style={phase(o)} />
+            <circle className="sk-a sk-f" cx={cx} cy="12" r="1.75" fill="currentColor" style={phase((o + 0.5) % 1)} />
+          </g>
+        );
+      })}
+    </Spinner>
+  );
+}
+
+const syncArrow = (start: number, end: number) => {
+  const [x1, y1] = polar(8, start);
+  const [x2, y2] = polar(8, end);
+  const head = [polar(5.25, end - 16), polar(8, end), polar(10.75, end - 16)].map((p) => p.join(" ")).join(" L");
+  return `M${x1} ${y1}A8 8 0 0 1 ${x2} ${y2}M${head}`;
+};
+
+/** Two arrows cycling around each other. */
+export function Sync(props: SpinnerProps) {
+  return (
+    <Spinner
+      name="sync"
+      defaultDuration={1.2}
+      css={`.sk-sync{--sk-tw:2}${anim("sync", "to{transform:rotate(180deg)}", "cubic-bezier(.6,0,.4,1)")}`}
+      {...props}
+    >
+      <g className="sk-a">
+        <path className="sk-s" d={syncArrow(25, 145)} />
+        <path className="sk-s" d={syncArrow(205, 325)} />
+      </g>
+    </Spinner>
+  );
+}
+
+/** A line of text being typed, with a blinking caret. */
+export function Cursor(props: SpinnerProps) {
+  return (
+    <Spinner
+      name="cursor"
+      defaultDuration={2}
+      css={
+        ".sk-cursor{--sk-tw:2}.sk-cursor .sk-cursor-t{transform-origin:3px 12px}" +
+        anim("cursor", "0%{transform:scaleX(0)}70%,100%{transform:scaleX(1)}", "steps(7,end)", "t") +
+        anim("cursor", "0%{transform:translateX(0)}70%,100%{transform:translateX(14px)}", "steps(7,end)", "c") +
+        ".sk-cursor .sk-cursor-b{animation-name:sk-cursor-b;animation-timing-function:steps(1,end);" +
+        "animation-duration:calc(var(--sk-duration) * var(--sk-speed) * .25)}" +
+        "@keyframes sk-cursor-b{0%{opacity:1}50%{opacity:0}}"
+      }
+      {...props}
+    >
+      <rect className="sk-a sk-cursor-t" x="3" y="10.5" width="14" height="3" rx="1.5" fill="currentColor" opacity="0.45" />
+      <g className="sk-a sk-cursor-c">
+        <line className="sk-a sk-s sk-cursor-b" x1="4" y1="7" x2="4" y2="17" />
+      </g>
+    </Spinner>
+  );
+}
+
+/** A ring filling up, fading, and starting over. */
+export function Progress(props: SpinnerProps) {
+  return (
+    <Spinner
+      name="progress"
+      defaultDuration={1.8}
+      css={
+        ".sk-progress{--sk-tw:2.5}" +
+        anim(
+          "progress",
+          "0%{stroke-dashoffset:100;opacity:1}75%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}",
+          "cubic-bezier(.4,0,.2,1)",
+        )
+      }
+      {...props}
+    >
+      <circle className="sk-s sk-t" cx="12" cy="12" r="9.5" />
+      <g transform="rotate(-90 12 12)">
+        <circle className="sk-a sk-s" cx="12" cy="12" r="9.5" pathLength={100} strokeDasharray="100 100" />
+      </g>
+    </Spinner>
+  );
+}
+
+const SPIRAL = Array.from({ length: 10 }, (_, i) => {
+  const [cx, cy] = polar(9.5 - i * 0.85, i * 42);
+  return { cx, cy, r: round(1.9 - i * 0.11), o: ((10 - i) % 10) / 10 };
+});
+
+/** Dots spiralling in toward the centre. */
+export function Spiral(props: SpinnerProps) {
+  return (
+    <Spinner
+      name="spiral"
+      defaultDuration={1.2}
+      css={
+        anim("spiral", "0%{opacity:1;transform:scale(1)}100%{opacity:.15;transform:scale(.6)}", "linear") +
+        ".sk-spiral .sk-spiral-r{animation-name:sk-rotate;animation-timing-function:linear;" +
+        "animation-duration:calc(var(--sk-duration) * var(--sk-speed) * 4)}"
+      }
+      {...props}
+    >
+      <g className="sk-a sk-spiral-r">
+        {SPIRAL.map(({ o, ...dot }) => (
+          <circle key={o} className="sk-a sk-f" {...dot} fill="currentColor" style={phase(o)} />
+        ))}
+      </g>
+    </Spinner>
+  );
+}
+
+const CLOUD_PATH = "M7 18h10.5a4 4 0 0 0 .5-7.97A6 6 0 0 0 6.34 9.1 4.5 4.5 0 0 0 7 18z";
+
+/** A cloud with an arrow rising into it. */
+export function Cloud(props: SpinnerProps) {
+  return (
+    <Spinner
+      name="cloud"
+      defaultDuration={1.4}
+      css={
+        ".sk-cloud{--sk-tw:1.75}" +
+        anim(
+          "cloud",
+          "0%{transform:translateY(3px);opacity:0}30%,65%{opacity:1}100%{transform:translateY(-3px);opacity:0}",
+          "ease-out",
+        )
+      }
+      {...props}
+    >
+      <path className="sk-s" d={CLOUD_PATH} />
+      <g className="sk-a">
+        <line className="sk-s" x1="12" y1="16.5" x2="12" y2="11" />
+        <polyline className="sk-s" points="9.75 13.25 12 11 14.25 13.25" />
+      </g>
+    </Spinner>
+  );
+}
+
 /** Two dots chasing each other around a square. */
 export function Chase(props: SpinnerProps) {
   return (

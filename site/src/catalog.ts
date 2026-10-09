@@ -59,6 +59,12 @@ export const CATALOG: Entry[] = [
   { name: "Tail", Component: Kit.Tail, description: "A ring with a fading tail, like a comet.", duration: 1, stroke: true },
   { name: "Tumble", Component: Kit.Tumble, description: "A square flipping over on one axis, then the other.", duration: 1.6, stroke: false },
   { name: "Timer", Component: Kit.Timer, description: "A clock face with sweeping hands.", duration: 1.2, stroke: true },
+  { name: "Helix", Component: Kit.Helix, description: "Two strands of dots twisting like DNA.", duration: 1.6, stroke: false },
+  { name: "Sync", Component: Kit.Sync, description: "Two arrows cycling around each other.", duration: 1.2, stroke: true },
+  { name: "Cursor", Component: Kit.Cursor, description: "A line being typed with a blinking caret.", duration: 2, stroke: true },
+  { name: "Progress", Component: Kit.Progress, description: "A ring filling up, fading, and starting over.", duration: 1.8, stroke: true },
+  { name: "Spiral", Component: Kit.Spiral, description: "Dots spiralling in toward the centre.", duration: 1.2, stroke: false },
+  { name: "Cloud", Component: Kit.Cloud, description: "A cloud with an arrow rising into it.", duration: 1.4, stroke: true },
 ];
 
 export const EASINGS = [
