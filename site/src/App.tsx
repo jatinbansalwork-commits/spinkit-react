@@ -1,171 +1,224 @@
-import { useState, type ComponentType } from "react";
-import {
-  Bars,
-  Bloom,
-  Dots,
-  Grid,
-  Heartbeat,
-  Loop,
-  Orbit,
-  Pendulum,
-  Pulse,
-  Radial,
-  Spin,
-  type SpinnerProps,
-  Typing,
-} from "spinkit-react";
-
-const SPINNERS: [string, ComponentType<SpinnerProps>, string][] = [
-  ["Spin", Spin, "An arc rotating around a faint track."],
-  ["Dots", Dots, "Three dots hopping one after another."],
-  ["Typing", Typing, "Three dots fading in and out."],
-  ["Bars", Bars, "Four bars bouncing like an equalizer."],
-  ["Pulse", Pulse, "Rings radiating from a solid core."],
-  ["Orbit", Orbit, "Two moons circling a planet."],
-  ["Grid", Grid, "Four tiles lighting up clockwise."],
-  ["Radial", Radial, "Eight spokes with a sweeping highlight."],
-  ["Loop", Loop, "A dash travelling along a figure eight."],
-  ["Heartbeat", Heartbeat, "A pulse crossing a heart-rate line."],
-  ["Pendulum", Pendulum, "A weight swinging from a pivot."],
-  ["Bloom", Bloom, "Six petals swelling in turn."],
-];
+import { Bloom, Chase, Dots, Gear, Hourglass, Spin } from "spinkit-react";
+import { CATALOG } from "./catalog";
+import { Code, useCopy } from "./Code";
+import { Playground } from "./Playground";
+import { UseCases } from "./UseCases";
 
 const INSTALL = "npm install spinkit-react";
 
-function useCopy() {
-  const [copied, setCopied] = useState<string | null>(null);
-  const copy = (text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopied(text);
-      setTimeout(() => setCopied((c) => (c === text ? null : c)), 1200);
-    });
-  };
-  return { copied, copy };
-}
+const NAV = [
+  ["Getting started", [
+    ["install", "Installation"],
+    ["usage", "Usage"],
+  ]],
+  ["Spinners", [["playground", "Playground"]]],
+  ["Use cases", [
+    ["buttons", "Buttons"],
+    ["inline", "Inline with text"],
+    ["color", "Inherited color"],
+    ["inputs", "Input adornment"],
+    ["overlay", "Content overlay"],
+    ["skeleton", "Placeholder content"],
+    ["toast", "Toasts and progress"],
+    ["chat", "Chat and AI"],
+    ["page", "Full-page loading"],
+    ["play-state", "Pausing"],
+    ["styling", "Custom styling"],
+    ["suspense", "Suspense and RSC"],
+  ]],
+  ["Reference", [
+    ["props", "Props"],
+    ["accessibility", "Accessibility"],
+    ["motion", "Reduced motion"],
+  ]],
+] as const;
 
 export function App() {
-  const [size, setSize] = useState(32);
-  const [speed, setSpeed] = useState(1);
-  const [color, setColor] = useState("#6d5dfc");
-  const [paused, setPaused] = useState(false);
   const { copied, copy } = useCopy();
 
   return (
-    <main>
-      <header className="hero">
-        <Spin size={40} color={color} />
-        <h1>spinkit-react</h1>
-        <p>Tiny, accessible, dependency-free loading spinners for React.</p>
-        <button type="button" className="install" onClick={() => copy(INSTALL)}>
-          <code>{INSTALL}</code>
-          <span>{copied === INSTALL ? "Copied" : "Copy"}</span>
-        </button>
-      </header>
+    <div className="layout">
+      <aside className="sidebar">
+        <a href="#top" className="brand">
+          <Spin size={18} />
+          spinkit-react
+        </a>
+        <nav>
+          {NAV.map(([group, links]) => (
+            <div key={group}>
+              <h4>{group}</h4>
+              {links.map(([id, label]) => (
+                <a key={id} href={`#${id}`}>
+                  {label}
+                </a>
+              ))}
+            </div>
+          ))}
+        </nav>
+        <div className="sidebar-foot">
+          <a href="https://www.npmjs.com/package/spinkit-react">npm</a>
+          <span>v0.1.0</span>
+        </div>
+      </aside>
 
-      <section className="controls" aria-label="Playground controls">
-        <label>
-          Size <output>{size}px</output>
-          <input type="range" min={12} max={64} value={size} onChange={(e) => setSize(+e.target.value)} />
-        </label>
-        <label>
-          Speed <output>{speed.toFixed(1)}×</output>
-          <input
-            type="range"
-            min={0.25}
-            max={3}
-            step={0.25}
-            value={speed}
-            onChange={(e) => setSpeed(+e.target.value)}
-          />
-        </label>
-        <label>
-          Color
-          <input type="color" value={color} onChange={(e) => setColor(e.target.value)} />
-        </label>
-        <label className="toggle">
-          <input type="checkbox" checked={paused} onChange={(e) => setPaused(e.target.checked)} />
-          Paused
-        </label>
-      </section>
-
-      <section className="grid">
-        {SPINNERS.map(([name, Component, description]) => {
-          const snippet = `import { ${name} } from "spinkit-react";\n\n<${name} size={${size}} />`;
-          return (
-            <button
-              type="button"
-              key={name}
-              className="card"
-              onClick={() => copy(snippet)}
-              title="Copy usage"
-            >
-              <div className="preview">
-                <Component size={size} color={color} paused={paused} duration={defaultDuration(name) / speed} />
-              </div>
-              <strong>{copied === snippet ? "Copied!" : name}</strong>
-              <small>{description}</small>
+      <main id="top">
+        <header className="hero">
+          <div className="hero-strip" aria-hidden="true">
+            <Spin size={28} />
+            <Dots size={28} />
+            <Hourglass size={28} />
+            <Bloom size={28} />
+            <Gear size={28} />
+            <Chase size={28} />
+          </div>
+          <h1>Loading spinners for React, done properly.</h1>
+          <p className="lead">
+            {CATALOG.length} hand-tuned SVG spinners in about 13 KB. Accessible by default, respectful of
+            reduced motion, styled with zero CSS imports, and ready for Server Components.
+          </p>
+          <div className="hero-actions">
+            <button type="button" className="install" onClick={() => copy(INSTALL)}>
+              <span className="prompt">$</span>
+              <code>{INSTALL}</code>
+              <span className="install-copy">{copied === INSTALL ? "Copied" : "Copy"}</span>
             </button>
-          );
-        })}
-      </section>
+            <a className="btn btn-ghost" href="#playground">
+              Browse spinners
+            </a>
+          </div>
+        </header>
 
-      <section className="docs">
-        <h2>Usage</h2>
-        <pre>
-          <code>{`import { Spin } from "spinkit-react";
+        <section id="install">
+          <h2>Installation</h2>
+          <p>Install from npm with your package manager of choice. React 19 or later is required.</p>
+          <Code lang="sh">{`npm install spinkit-react
+# or
+pnpm add spinkit-react
+# or
+yarn add spinkit-react`}</Code>
+        </section>
 
-export function SaveButton({ saving }) {
-  return <button>{saving ? <Spin size={16} /> : "Save"}</button>;
-}`}</code>
-        </pre>
+        <section id="usage">
+          <h2>Usage</h2>
+          <p>
+            Import a spinner and render it. Every spinner shares the same props: <code>size</code>,{" "}
+            <code>color</code>, <code>duration</code>, <code>easing</code>, <code>thickness</code>,{" "}
+            <code>cap</code>, <code>playState</code> and <code>label</code>. Some have extra props of
+            their own.
+          </p>
+          <Code>{`import { Spin } from "spinkit-react";
 
-        <h2>Props</h2>
-        <p>Every spinner accepts the same props, plus any attribute of a <code>span</code>.</p>
-        <table>
-          <thead>
-            <tr>
-              <th>Prop</th>
-              <th>Type</th>
-              <th>Default</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>size</td><td>number | string</td><td>24</td></tr>
-            <tr><td>color</td><td>string</td><td>currentColor</td></tr>
-            <tr><td>duration</td><td>number (seconds)</td><td>per spinner</td></tr>
-            <tr><td>paused</td><td>boolean</td><td>false</td></tr>
-            <tr><td>label</td><td>string</td><td>"Loading"</td></tr>
-            <tr><td>motion</td><td>"reduce" | "always"</td><td>"reduce"</td></tr>
-          </tbody>
-        </table>
+export function Loader() {
+  return <Spin size={20} color="#4f46e5" duration={1} />;
+}`}</Code>
+        </section>
 
-        <h2>Notes</h2>
-        <ul>
-          <li>Renders a <code>role="status"</code> element with an accessible label.</li>
-          <li>Slows down automatically for users who prefer reduced motion.</li>
-          <li>Styles are injected once per spinner using React 19 stylesheet hoisting, so no CSS import is needed and it works in Server Components.</li>
-          <li>Restyle anything with <code>className</code>, <code>style</code> or the <code>.sk</code> class.</li>
-        </ul>
-      </section>
+        <section id="playground">
+          <h2>Playground</h2>
+          <p>Pick a spinner, tune it, and copy the code. Settings apply to every tile.</p>
+          <Playground />
+        </section>
 
-      <footer>
-        MIT licensed · <a href="https://www.npmjs.com/package/spinkit-react">npm</a>
-      </footer>
-    </main>
+        <section id="use-cases">
+          <h2>Use cases</h2>
+          <p>Common places a loading indicator shows up, with code you can paste.</p>
+          <UseCases />
+        </section>
+
+        <section id="props">
+          <h2>Props</h2>
+          <p>
+            Shared by every spinner. Any other prop is passed to the root <code>span</code>, so{" "}
+            <code>id</code>, <code>data-*</code> and event handlers all work.
+          </p>
+          <div className="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Prop</th>
+                  <th>Type</th>
+                  <th>Default</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                {SHARED_PROPS.map(([prop, type, def, desc]) => (
+                  <tr key={prop}>
+                    <td><code>{prop}</code></td>
+                    <td><code>{type}</code></td>
+                    <td><code>{def}</code></td>
+                    <td>{desc}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Spinner-specific props</h3>
+          <div className="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Spinner</th>
+                  <th>Prop</th>
+                  <th>Range</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                {CATALOG.filter((e) => e.extra).map((e) => (
+                  <tr key={e.name}>
+                    <td><code>{e.name}</code></td>
+                    <td><code>{e.extra?.prop}</code></td>
+                    <td>
+                      {e.extra?.min} – {e.extra?.max}
+                    </td>
+                    <td><code>{e.extra?.default}</code></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="accessibility">
+          <h2>Accessibility</h2>
+          <p>
+            Each spinner renders a <code>role="status"</code> element with an <code>aria-label</code>{" "}
+            (default <code>"Loading"</code>), so screen readers announce it politely. The SVG itself is
+            hidden from assistive technology. Give the label context where it helps:
+          </p>
+          <Code>{`<Spin label="Uploading avatar" />`}</Code>
+        </section>
+
+        <section id="motion">
+          <h2>Reduced motion</h2>
+          <p>
+            When the operating system asks for reduced motion, spinners slow to a third of their speed
+            rather than stopping, so they still signal progress. Opt out per instance when motion is
+            essential:
+          </p>
+          <Code>{`<Spin motion="always" />`}</Code>
+        </section>
+
+        <footer>
+          <span>MIT licensed.</span>
+          <a href="https://www.npmjs.com/package/spinkit-react">npm</a>
+        </footer>
+      </main>
+    </div>
   );
 }
 
-const DURATIONS: Record<string, number> = {
-  Spin: 0.8,
-  Bars: 1,
-  Radial: 1,
-  Orbit: 1.4,
-  Heartbeat: 1.4,
-  Pendulum: 1.4,
-  Pulse: 1.6,
-  Loop: 1.6,
-};
-
-function defaultDuration(name: string) {
-  return DURATIONS[name] ?? 1.2;
-}
+const SHARED_PROPS = [
+  ["size", "number | string", "24", "Width and height. Numbers are pixels; strings accept any CSS length."],
+  ["color", "string", "currentColor", "Any CSS color."],
+  ["duration", "number", "per spinner", "Seconds per animation cycle."],
+  ["easing", "string", "per spinner", "Any CSS timing function."],
+  ["thickness", "number", "per spinner", "Stroke width on the 24×24 grid. Stroked spinners only."],
+  ["cap", '"round" | "butt" | "square"', '"round"', "Stroke line cap. Stroked spinners only."],
+  ["playState", '"running" | "paused"', '"running"', "Pause or resume the animation."],
+  ["paused", "boolean", "false", 'Shorthand for playState="paused".'],
+  ["label", "string", '"Loading"', "Accessible label for screen readers."],
+  ["motion", '"reduce" | "always"', '"reduce"', "Whether to slow down for reduced-motion users."],
+] as const;

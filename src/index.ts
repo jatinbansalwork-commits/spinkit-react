@@ -1,15 +1,27 @@
-export type { SpinnerProps } from "./core";
+export type { PlayState, SpinnerProps, StrokeCap } from "./core";
+export type { BloomProps, CountProps, RadialProps, SpinProps } from "./spinners";
 export {
+  Ball,
   Bars,
+  Battery,
+  Beacon,
   Bloom,
+  Chase,
   Dots,
+  Gear,
   Grid,
   Heartbeat,
+  Honeycomb,
+  Hourglass,
+  Lines,
   Loop,
-  Orbit,
+  Moons,
   Pendulum,
-  Pulse,
+  Radar,
   Radial,
+  Signal,
   Spin,
+  Sun,
+  Track,
   Typing,
 } from "./spinners";

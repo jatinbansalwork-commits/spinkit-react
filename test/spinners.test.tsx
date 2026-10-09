@@ -33,6 +33,26 @@ describe.each(entries)("%s", (_, Component) => {
   });
 });
 
+it("maps easing, thickness, cap and playState to CSS variables", () => {
+  render(<Spinners.Spin easing="ease-in" thickness={3} cap="butt" playState="paused" />);
+  const el = screen.getByRole("status");
+  expect(el.style.getPropertyValue("--sk-ease")).toBe("ease-in");
+  expect(el.style.getPropertyValue("--sk-thickness")).toBe("3");
+  expect(el.style.getPropertyValue("--sk-cap")).toBe("butt");
+  expect(el.style.getPropertyValue("--sk-state")).toBe("paused");
+});
+
+it.each([
+  ["Dots", <Spinners.Dots count={5} />, "circle", 5],
+  ["Typing", <Spinners.Typing count={99} />, "circle", 7],
+  ["Bars", <Spinners.Bars count={6} />, "rect", 6],
+  ["Radial", <Spinners.Radial spokes={12} />, "line", 12],
+  ["Bloom", <Spinners.Bloom petals={4} />, "circle", 4],
+] as const)("%s respects its element count prop", (_, element, tag, expected) => {
+  render(element);
+  expect(screen.getByRole("status").querySelectorAll(tag).length).toBe(expected);
+});
+
 it("injects each stylesheet only once", () => {
   render(
     <>
