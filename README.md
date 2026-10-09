@@ -2,6 +2,10 @@
 
 Tiny, accessible, dependency-free loading spinners for React.
 
+[![npm](https://img.shields.io/npm/v/spinkit-react)](https://www.npmjs.com/package/spinkit-react)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/spinkit-react)](https://bundlephobia.com/package/spinkit-react)
+[![license](https://img.shields.io/npm/l/spinkit-react)](LICENSE)
+
 - 34 SVG spinners, ~18 KB minified for the whole set, tree-shakable
 - No CSS import: styles are injected once via React 19 stylesheet hoisting
 - Works in Server Components and Suspense fallbacks (no hooks, no client state)
@@ -125,7 +129,34 @@ playLoadingSound("done", { volume: 0.5 });
 Browsers only allow audio after a user gesture, so trigger the first sound (or
 `primeLoadingSounds()`) from the click that starts the work.
 
+## Next.js and frameworks
+
+Spinners have no hooks or client state, so they work in React Server Components, Suspense fallbacks
+and `loading.tsx` files without `"use client"`. Their styles are injected by React 19, so there's no
+CSS file to import in Next.js, Remix, Vite or any other React 19 setup.
+
+```tsx
+// app/dashboard/loading.tsx
+import { Spin } from "spinkit-react";
+
+export default function Loading() {
+  return <Spin size={24} label="Loading dashboard" />;
+}
+```
+
+## Troubleshooting
+
+| Problem                                   | Fix                                                                         |
+| ----------------------------------------- | --------------------------------------------------------------------------- |
+| Spinner is visible but doesn't animate    | Requires React 19; earlier versions don't hoist the injected styles         |
+| Spinner is invisible                      | It uses `currentColor`; check the parent's text color or pass `color`       |
+| Animates slower than expected             | Reduced motion is on in your OS. Pass `motion="always"` to opt out          |
+| `thickness` or `cap` has no effect        | Those only apply to stroked spinners such as `Spin`, `Loop` or `Gear`       |
+| No sound                                  | Sounds need a user click first and stay off on touch devices                |
+
 ## Development
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, adding a spinner and releasing.
 
 ```sh
 pnpm install
@@ -134,6 +165,11 @@ pnpm build       # build the library into dist/
 pnpm site:dev    # run the docs site
 ```
 
+## Support
+
+- [Report a bug](https://github.com/jatinbansalwork-commits/spinkit-react/issues/new?template=bug_report.yml)
+- [Suggest a spinner or feature](https://github.com/jatinbansalwork-commits/spinkit-react/issues/new?template=feature_request.yml)
+
 ## License
 
-MIT
+[MIT](LICENSE) © Jatin Bansal

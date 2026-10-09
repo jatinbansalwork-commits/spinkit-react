@@ -58,7 +58,7 @@ export function App() {
         </nav>
         <div className="sidebar-foot">
           <a href="https://www.npmjs.com/package/spinkit-react">npm</a>
-          <span>v0.1.0</span>
+          <span>v0.1.1</span>
         </div>
       </aside>
 

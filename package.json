@@ -1,6 +1,6 @@
 {
   "name": "spinkit-react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Tiny, accessible, dependency-free loading spinners for React.",
   "license": "MIT",
   "author": "Jatin Bansal",

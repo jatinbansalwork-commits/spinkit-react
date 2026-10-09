@@ -1,0 +1,27 @@
+name: Bug report
+description: A spinner doesn't render, animate or behave the way it should.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you expected, and what you saw instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Code to reproduce
+      render: tsx
+      placeholder: <Spin size={16} thickness={3} />
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      placeholder: spinkit-react 0.1.1, react 19.2, next 16
+  - type: input
+    id: env
+    attributes:
+      label: Browser and OS
+      placeholder: Safari 19 on iOS...

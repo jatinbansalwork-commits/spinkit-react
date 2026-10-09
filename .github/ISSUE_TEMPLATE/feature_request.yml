@@ -1,0 +1,16 @@
+name: Feature request
+description: Suggest a new spinner, prop or improvement.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Where would you use it?
+      description: The screen or situation, before any particular design.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What do you have in mind?
+      description: A description, sketch or link to a recording.
