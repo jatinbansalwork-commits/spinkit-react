@@ -21,7 +21,12 @@ export {
   Radial,
   Signal,
   Spin,
+  Stretch,
   Sun,
+  Tail,
+  Timer,
   Track,
+  Tumble,
+  Twin,
   Typing,
 } from "./spinners";

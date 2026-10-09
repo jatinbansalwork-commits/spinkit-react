@@ -54,6 +54,11 @@ export const CATALOG: Entry[] = [
   { name: "Ball", Component: Kit.Ball, description: "A ball bouncing and squashing on the floor.", duration: 0.9, stroke: false },
   { name: "Lines", Component: Kit.Lines, description: "Placeholder lines filling in, like a skeleton.", duration: 1.4, stroke: true },
   { name: "Chase", Component: Kit.Chase, description: "Two dots chasing around a square.", duration: 2, stroke: true },
+  { name: "Stretch", Component: Kit.Stretch, description: "An arc that grows and shrinks as it turns.", duration: 1.6, stroke: true },
+  { name: "Twin", Component: Kit.Twin, description: "Two arcs turning in opposite directions.", duration: 1.2, stroke: true },
+  { name: "Tail", Component: Kit.Tail, description: "A ring with a fading tail, like a comet.", duration: 1, stroke: true },
+  { name: "Tumble", Component: Kit.Tumble, description: "A square flipping over on one axis, then the other.", duration: 1.6, stroke: false },
+  { name: "Timer", Component: Kit.Timer, description: "A clock face with sweeping hands.", duration: 1.2, stroke: true },
 ];
 
 export const EASINGS = [

@@ -498,6 +498,111 @@ export function Lines(props: SpinnerProps) {
   );
 }
 
+/** An arc that grows and shrinks as it turns. */
+export function Stretch(props: SpinnerProps) {
+  return (
+    <Spinner
+      name="stretch"
+      defaultDuration={1.6}
+      css={
+        ".sk-stretch{--sk-tw:2.5}" +
+        anim("stretch", "to{transform:rotate(360deg)}", "linear", "r") +
+        anim(
+          "stretch",
+          "0%{stroke-dasharray:1 100;stroke-dashoffset:0}50%{stroke-dasharray:60 100;stroke-dashoffset:-20}100%{stroke-dasharray:1 100;stroke-dashoffset:-99}",
+          "ease-in-out",
+          "d",
+        )
+      }
+      {...props}
+    >
+      <g className="sk-a sk-stretch-r">
+        <circle className="sk-a sk-s sk-stretch-d" cx="12" cy="12" r="9.5" pathLength={100} />
+      </g>
+    </Spinner>
+  );
+}
+
+/** Two arcs turning in opposite directions. */
+export function Twin(props: SpinnerProps) {
+  return (
+    <Spinner
+      name="twin"
+      defaultDuration={1.2}
+      css={
+        anim("twin", "to{transform:rotate(360deg)}", "linear", "o") +
+        anim("twin", "to{transform:rotate(-360deg)}", "linear", "i")
+      }
+      {...props}
+    >
+      <circle className="sk-a sk-s sk-twin-o" cx="12" cy="12" r="9.5" pathLength={100} strokeDasharray="30 20" />
+      <circle className="sk-a sk-s sk-twin-i" cx="12" cy="12" r="5" pathLength={100} strokeDasharray="30 70" opacity="0.6" />
+    </Spinner>
+  );
+}
+
+/** A ring with a fading tail, like a comet. */
+export function Tail(props: SpinnerProps) {
+  return (
+    <Spinner name="tail" defaultDuration={1} css={`.sk-tail{--sk-tw:2.5}${spinCss("tail")}`} {...props}>
+      <g className="sk-a">
+        {Array.from({ length: 8 }, (_, i) => (
+          <circle
+            key={i}
+            className="sk-s"
+            cx="12"
+            cy="12"
+            r="9.5"
+            pathLength={100}
+            strokeDasharray="11 89"
+            strokeDashoffset={-i * 12.5}
+            opacity={round((i + 1) / 8)}
+          />
+        ))}
+      </g>
+    </Spinner>
+  );
+}
+
+/** A square flipping over on one axis, then the other. */
+export function Tumble(props: SpinnerProps) {
+  return (
+    <Spinner
+      name="tumble"
+      defaultDuration={1.6}
+      css={anim(
+        "tumble",
+        "0%{transform:scale(1,1);opacity:1}25%{opacity:.55}50%{transform:scale(1,-1);opacity:1}75%{opacity:.55}100%{transform:scale(-1,-1);opacity:1}",
+        "ease-in-out",
+      )}
+      {...props}
+    >
+      <rect className="sk-a sk-f" x="6" y="6" width="12" height="12" rx="2" fill="currentColor" />
+    </Spinner>
+  );
+}
+
+/** A clock face with a sweeping minute hand and a slow hour hand. */
+export function Timer(props: SpinnerProps) {
+  return (
+    <Spinner
+      name="timer"
+      defaultDuration={1.2}
+      css={
+        ".sk-timer{--sk-tw:1.75}" +
+        spinCss("timer") +
+        ".sk-timer .sk-timer-h{animation-duration:calc(var(--sk-duration) * var(--sk-speed) * 12)}"
+      }
+      {...props}
+    >
+      <circle className="sk-s" cx="12" cy="12" r="9.5" />
+      <line className="sk-a sk-s sk-timer-h" x1="12" y1="12" x2="12" y2="8" />
+      <line className="sk-a sk-s" x1="12" y1="12" x2="12" y2="5.5" />
+      <circle cx="12" cy="12" r="1.25" fill="currentColor" />
+    </Spinner>
+  );
+}
+
 /** Two dots chasing each other around a square. */
 export function Chase(props: SpinnerProps) {
   return (
