@@ -39,7 +39,15 @@ jobs:
               cat "$f" || true
             fi
           done
-          npm publish --access public --provenance
+          echo "OIDC URL set: ${ACTIONS_ID_TOKEN_REQUEST_URL:+yes}"
+          echo "OIDC token set: ${ACTIONS_ID_TOKEN_REQUEST_TOKEN:+yes}"
+          # New trusted publishers default to stage-only; try direct publish first, then stage.
+          if npm publish --access public --provenance; then
+            echo "Published directly"
+          else
+            echo "Direct publish failed; trying npm stage publish (always allowed)"
+            npm stage publish --access public
+          fi
       - name: Create GitHub release
         run: |
           if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
