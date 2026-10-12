@@ -26,7 +26,10 @@ jobs:
             echo "Tag $GITHUB_REF_NAME does not match package.json version $version"; exit 1
           fi
       - run: pnpm install --frozen-lockfile
-      - run: npm publish --access public
+      # Prefer npm trusted publishing (OIDC). Optional NPM_TOKEN secret works as a fallback.
+      - run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Create GitHub release
         run: gh release create "$GITHUB_REF_NAME" --generate-notes
         env:
