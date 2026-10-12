@@ -3,6 +3,8 @@
 All notable changes to `spinkit-react`. New entries go under **Unreleased**; on release that heading
 becomes the version number.
 
+## Unreleased (0.1.3)
+
 ## 0.1.2
 
 ### A proper front door
