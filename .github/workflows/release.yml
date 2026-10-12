@@ -14,10 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-      # Do not set registry-url — it writes an empty _authToken that blocks OIDC.
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+          registry-url: https://registry.npmjs.org
           cache: pnpm
       - name: Check tag matches package version
         run: |
@@ -25,13 +25,20 @@ jobs:
           if [ "v$version" != "$GITHUB_REF_NAME" ]; then
             echo "Tag $GITHUB_REF_NAME does not match package.json version $version"; exit 1
           fi
+          node -p "process.version"
+          npm --version
       - run: pnpm install --frozen-lockfile
       - name: Publish to npm (OIDC trusted publishing)
         run: |
+          # setup-node writes _authToken=${NODE_AUTH_TOKEN}; empty token blocks OIDC.
           unset NODE_AUTH_TOKEN NPM_TOKEN || true
-          if [ -n "${NPM_CONFIG_USERCONFIG:-}" ] && [ -f "$NPM_CONFIG_USERCONFIG" ]; then
-            sed -i '/_authToken/d' "$NPM_CONFIG_USERCONFIG"
-          fi
+          for f in "${NPM_CONFIG_USERCONFIG:-}" "$HOME/.npmrc" "$RUNNER_TEMP/.npmrc"; do
+            if [ -n "$f" ] && [ -f "$f" ]; then
+              sed -i '/_authToken/d' "$f" || true
+              echo "--- $f ---"
+              cat "$f" || true
+            fi
+          done
           npm publish --access public --provenance
       - name: Create GitHub release
         run: |
