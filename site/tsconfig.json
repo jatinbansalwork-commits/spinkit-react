@@ -9,11 +9,12 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "noEmit": true,
+    "resolveJsonModule": true,
     "types": ["vite/client"],
     "paths": {
       "spinkit-react": ["../src/index.ts"],
       "spinkit-react/sound": ["../src/sound.ts"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "../package.json", "../CHANGELOG.md"]
 }

@@ -13,12 +13,16 @@ export interface ExtraProp {
 
 export interface Entry {
   name: string;
+  slug: string;
   // biome-ignore lint: spinners accept their own extra props
   Component: ComponentType<SpinnerProps & Record<string, any>>;
   description: string;
+  /** Default cycle length in seconds (library units). */
   duration: number;
   stroke: boolean;
   extra?: ExtraProp;
+  /** Speed slider range in milliseconds. */
+  speedRange: { min: number; max: number };
 }
 
 const count = (min: number, max: number, def: number): ExtraProp => ({
@@ -30,49 +34,114 @@ const count = (min: number, max: number, def: number): ExtraProp => ({
   default: def,
 });
 
+function entry(
+  name: string,
+  Component: Entry["Component"],
+  description: string,
+  duration: number,
+  stroke: boolean,
+  extra?: ExtraProp,
+): Entry {
+  const ms = Math.round(duration * 1000);
+  return {
+    name,
+    slug: name.toLowerCase(),
+    Component,
+    description,
+    duration,
+    stroke,
+    extra,
+    speedRange: { min: Math.max(200, Math.round(ms * 0.35)), max: Math.round(ms * 2.5) },
+  };
+}
+
+/** Order here is sidebar order, overview grid order, and prev/next order. */
 export const CATALOG: Entry[] = [
-  { name: "Spin", Component: Kit.Spin, description: "An arc rotating around a faint track.", duration: 0.8, stroke: true, extra: { prop: "arc", label: "Arc", min: 0.05, max: 0.95, step: 0.05, default: 0.25 } },
-  { name: "Dots", Component: Kit.Dots, description: "Dots hopping one after another.", duration: 1.2, stroke: false, extra: count(2, 7, 3) },
-  { name: "Typing", Component: Kit.Typing, description: "Dots fading in and out, like someone typing.", duration: 1.2, stroke: false, extra: count(2, 7, 3) },
-  { name: "Bars", Component: Kit.Bars, description: "Bars bouncing like an equalizer.", duration: 1, stroke: false, extra: count(3, 7, 4) },
-  { name: "Beacon", Component: Kit.Beacon, description: "Rings radiating from a solid core.", duration: 1.6, stroke: true },
-  { name: "Moons", Component: Kit.Moons, description: "Two moons circling a planet.", duration: 1.4, stroke: true },
-  { name: "Grid", Component: Kit.Grid, description: "Four tiles lighting up clockwise.", duration: 1.2, stroke: false },
-  { name: "Radial", Component: Kit.Radial, description: "Spokes with a highlight sweeping around.", duration: 1, stroke: true, extra: { prop: "spokes", label: "Spokes", min: 6, max: 16, step: 1, default: 8 } },
-  { name: "Loop", Component: Kit.Loop, description: "A dash travelling along a figure eight.", duration: 1.6, stroke: true },
-  { name: "Heartbeat", Component: Kit.Heartbeat, description: "A pulse crossing a heart-rate line.", duration: 1.4, stroke: true },
-  { name: "Pendulum", Component: Kit.Pendulum, description: "A weight swinging from a pivot.", duration: 1.4, stroke: true },
-  { name: "Bloom", Component: Kit.Bloom, description: "Petals swelling and shrinking in turn.", duration: 1.2, stroke: false, extra: { prop: "petals", label: "Petals", min: 4, max: 10, step: 1, default: 6 } },
-  { name: "Hourglass", Component: Kit.Hourglass, description: "An hourglass draining and flipping over.", duration: 2.4, stroke: true },
-  { name: "Honeycomb", Component: Kit.Honeycomb, description: "A ring of hexagons around a centre cell.", duration: 1.2, stroke: false },
-  { name: "Signal", Component: Kit.Signal, description: "Waves lighting up from the source outward.", duration: 1.4, stroke: true },
-  { name: "Battery", Component: Kit.Battery, description: "A battery charging cell by cell.", duration: 2, stroke: true },
-  { name: "Track", Component: Kit.Track, description: "An indeterminate progress bar.", duration: 1.5, stroke: false },
-  { name: "Gear", Component: Kit.Gear, description: "A turning gear.", duration: 2, stroke: true },
-  { name: "Sun", Component: Kit.Sun, description: "Rays turning around a glowing core.", duration: 1.2, stroke: true },
-  { name: "Radar", Component: Kit.Radar, description: "A sweep that lights up a blip as it passes.", duration: 2, stroke: true },
-  { name: "Ball", Component: Kit.Ball, description: "A ball bouncing and squashing on the floor.", duration: 0.9, stroke: false },
-  { name: "Lines", Component: Kit.Lines, description: "Placeholder lines filling in, like a skeleton.", duration: 1.4, stroke: true },
-  { name: "Chase", Component: Kit.Chase, description: "Two dots chasing around a square.", duration: 2, stroke: true },
-  { name: "Stretch", Component: Kit.Stretch, description: "An arc that grows and shrinks as it turns.", duration: 1.6, stroke: true },
-  { name: "Twin", Component: Kit.Twin, description: "Two arcs turning in opposite directions.", duration: 1.2, stroke: true },
-  { name: "Tail", Component: Kit.Tail, description: "A ring with a fading tail, like a comet.", duration: 1, stroke: true },
-  { name: "Tumble", Component: Kit.Tumble, description: "A square flipping over on one axis, then the other.", duration: 1.6, stroke: false },
-  { name: "Timer", Component: Kit.Timer, description: "A clock face with sweeping hands.", duration: 1.2, stroke: true },
-  { name: "Helix", Component: Kit.Helix, description: "Two strands of dots twisting like DNA.", duration: 1.6, stroke: false },
-  { name: "Sync", Component: Kit.Sync, description: "Two arrows cycling around each other.", duration: 1.2, stroke: true },
-  { name: "Cursor", Component: Kit.Cursor, description: "A line being typed with a blinking caret.", duration: 2, stroke: true },
-  { name: "Progress", Component: Kit.Progress, description: "A ring filling up, fading, and starting over.", duration: 1.8, stroke: true },
-  { name: "Spiral", Component: Kit.Spiral, description: "Dots spiralling in toward the centre.", duration: 1.2, stroke: false },
-  { name: "Cloud", Component: Kit.Cloud, description: "A cloud with an arrow rising into it.", duration: 1.4, stroke: true },
+  entry("Spin", Kit.Spin, "An arc rotating around a faint track.", 0.8, true, {
+    prop: "arc",
+    label: "Arc",
+    min: 0.05,
+    max: 0.95,
+    step: 0.05,
+    default: 0.25,
+  }),
+  entry("Dots", Kit.Dots, "Dots hopping one after another.", 1.2, false, count(2, 7, 3)),
+  entry("Typing", Kit.Typing, "Dots fading in and out, like someone typing.", 1.2, false, count(2, 7, 3)),
+  entry("Bars", Kit.Bars, "Bars bouncing like an equalizer.", 1, false, count(3, 7, 4)),
+  entry("Beacon", Kit.Beacon, "Rings radiating from a solid core.", 1.6, true),
+  entry("Moons", Kit.Moons, "Two moons circling a planet.", 1.4, true),
+  entry("Grid", Kit.Grid, "Four tiles lighting up clockwise.", 1.2, false),
+  entry("Radial", Kit.Radial, "Spokes with a highlight sweeping around.", 1, true, {
+    prop: "spokes",
+    label: "Spokes",
+    min: 6,
+    max: 16,
+    step: 1,
+    default: 8,
+  }),
+  entry("Loop", Kit.Loop, "A dash travelling along a figure eight.", 1.6, true),
+  entry("Heartbeat", Kit.Heartbeat, "A pulse crossing a heart-rate line.", 1.4, true),
+  entry("Pendulum", Kit.Pendulum, "A weight swinging from a pivot.", 1.4, true),
+  entry("Bloom", Kit.Bloom, "Petals swelling and shrinking in turn.", 1.2, false, {
+    prop: "petals",
+    label: "Petals",
+    min: 4,
+    max: 10,
+    step: 1,
+    default: 6,
+  }),
+  entry("Hourglass", Kit.Hourglass, "An hourglass draining and flipping over.", 2.4, true),
+  entry("Honeycomb", Kit.Honeycomb, "A ring of hexagons around a centre cell.", 1.2, false),
+  entry("Signal", Kit.Signal, "Waves lighting up from the source outward.", 1.4, true),
+  entry("Battery", Kit.Battery, "A battery charging cell by cell.", 2, true),
+  entry("Track", Kit.Track, "An indeterminate progress bar.", 1.5, false),
+  entry("Gear", Kit.Gear, "A turning gear.", 2, true),
+  entry("Sun", Kit.Sun, "Rays turning around a glowing core.", 1.2, true),
+  entry("Radar", Kit.Radar, "A sweep that lights up a blip as it passes.", 2, true),
+  entry("Ball", Kit.Ball, "A ball bouncing and squashing on the floor.", 0.9, false),
+  entry("Lines", Kit.Lines, "Placeholder lines filling in, like a skeleton.", 1.4, true),
+  entry("Chase", Kit.Chase, "Two dots chasing around a square.", 2, true),
+  entry("Stretch", Kit.Stretch, "An arc that grows and shrinks as it turns.", 1.6, true),
+  entry("Twin", Kit.Twin, "Two arcs turning in opposite directions.", 1.2, true),
+  entry("Tail", Kit.Tail, "A ring with a fading tail, like a comet.", 1, true),
+  entry("Tumble", Kit.Tumble, "A square flipping over on one axis, then the other.", 1.6, false),
+  entry("Timer", Kit.Timer, "A clock face with sweeping hands.", 1.2, true),
+  entry("Helix", Kit.Helix, "Two strands of dots twisting like DNA.", 1.6, false),
+  entry("Sync", Kit.Sync, "Two arrows cycling around each other.", 1.2, true),
+  entry("Cursor", Kit.Cursor, "A line being typed with a blinking caret.", 2, true),
+  entry("Progress", Kit.Progress, "A ring filling up, fading, and starting over.", 1.8, true),
+  entry("Spiral", Kit.Spiral, "Dots spiralling in toward the centre.", 1.2, false),
+  entry("Cloud", Kit.Cloud, "A cloud with an arrow rising into it.", 1.4, true),
 ];
 
+export function getEntry(slug: string) {
+  return CATALOG.find((e) => e.slug === slug);
+}
+
+export function neighbors(slug: string) {
+  const i = CATALOG.findIndex((e) => e.slug === slug);
+  if (i < 0) return { prev: undefined, next: undefined };
+  return {
+    prev: i > 0 ? CATALOG[i - 1] : undefined,
+    next: i < CATALOG.length - 1 ? CATALOG[i + 1] : undefined,
+  };
+}
+
 export const EASINGS = [
-  { label: "Default", value: "" },
-  { label: "linear", value: "linear" },
-  { label: "ease", value: "ease" },
-  { label: "ease-in-out", value: "ease-in-out" },
-  { label: "ease-out", value: "ease-out" },
-  { label: "snappy", value: "cubic-bezier(.7,0,.3,1)" },
-  { label: "steps(8)", value: "steps(8)" },
+  { label: "Linear", value: "linear" },
+  { label: "Eased", value: "ease-in-out" },
+  { label: "Ease out", value: "ease-out" },
+  { label: "Snappy", value: "cubic-bezier(.7,0,.3,1)" },
+] as const;
+
+export const SIZE_PRESETS = [
+  { label: "Small", value: 24 },
+  { label: "Medium", value: 48 },
+  { label: "Large", value: 96 },
+] as const;
+
+export const CAPS = [
+  { label: "Round", value: "round" as const },
+  { label: "Flat", value: "butt" as const },
+  { label: "Square", value: "square" as const },
 ];

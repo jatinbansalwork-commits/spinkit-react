@@ -1,6 +1,7 @@
 node_modules
 dist
 site/dist
+.pnpm-store
 *.log
 .DS_Store
 coverage

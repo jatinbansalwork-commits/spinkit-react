@@ -1,0 +1,60 @@
+# spinkit-react
+
+> A quiet React kit for the pause between tap and result. Thirty-four loading indicators, one calm API.
+
+```sh
+npm install spinkit-react
+```
+
+```tsx
+import { Spin } from "spinkit-react";
+
+<Spin size={16} />
+```
+
+All indicators support `size`, `color`, `duration`, `easing`, `thickness`, `cap`, `playState`, `label` and `motion`. Some expose additional controls like `count`, `arc`, `spokes` or `petals`.
+
+The spinners respect reduced motion out of the box and require React 19 or later.
+
+## Spinners
+
+- [Spin](/spinners/spin): An arc rotating around a faint track. Import as `Spin`.
+- [Dots](/spinners/dots): Dots hopping one after another. Import as `Dots`.
+- [Typing](/spinners/typing): Dots fading in and out, like someone typing. Import as `Typing`.
+- [Bars](/spinners/bars): Bars bouncing like an equalizer. Import as `Bars`.
+- [Beacon](/spinners/beacon): Rings radiating from a solid core. Import as `Beacon`.
+- [Moons](/spinners/moons): Two moons circling a planet. Import as `Moons`.
+- [Grid](/spinners/grid): Four tiles lighting up clockwise. Import as `Grid`.
+- [Radial](/spinners/radial): Spokes with a highlight sweeping around. Import as `Radial`.
+- [Loop](/spinners/loop): A dash travelling along a figure eight. Import as `Loop`.
+- [Heartbeat](/spinners/heartbeat): A pulse crossing a heart-rate line. Import as `Heartbeat`.
+- [Pendulum](/spinners/pendulum): A weight swinging from a pivot. Import as `Pendulum`.
+- [Bloom](/spinners/bloom): Petals swelling and shrinking in turn. Import as `Bloom`.
+- [Hourglass](/spinners/hourglass): An hourglass draining and flipping over. Import as `Hourglass`.
+- [Honeycomb](/spinners/honeycomb): A ring of hexagons around a centre cell. Import as `Honeycomb`.
+- [Signal](/spinners/signal): Waves lighting up from the source outward. Import as `Signal`.
+- [Battery](/spinners/battery): A battery charging cell by cell. Import as `Battery`.
+- [Track](/spinners/track): An indeterminate progress bar. Import as `Track`.
+- [Gear](/spinners/gear): A turning gear. Import as `Gear`.
+- [Sun](/spinners/sun): Rays turning around a glowing core. Import as `Sun`.
+- [Radar](/spinners/radar): A sweep that lights up a blip as it passes. Import as `Radar`.
+- [Ball](/spinners/ball): A ball bouncing and squashing on the floor. Import as `Ball`.
+- [Lines](/spinners/lines): Placeholder lines filling in, like a skeleton. Import as `Lines`.
+- [Chase](/spinners/chase): Two dots chasing around a square. Import as `Chase`.
+- [Stretch](/spinners/stretch): An arc that grows and shrinks as it turns. Import as `Stretch`.
+- [Twin](/spinners/twin): Two arcs turning in opposite directions. Import as `Twin`.
+- [Tail](/spinners/tail): A ring with a fading tail, like a comet. Import as `Tail`.
+- [Tumble](/spinners/tumble): A square flipping over on one axis, then the other. Import as `Tumble`.
+- [Timer](/spinners/timer): A clock face with sweeping hands. Import as `Timer`.
+- [Helix](/spinners/helix): Two strands of dots twisting like DNA. Import as `Helix`.
+- [Sync](/spinners/sync): Two arrows cycling around each other. Import as `Sync`.
+- [Cursor](/spinners/cursor): A line being typed with a blinking caret. Import as `Cursor`.
+- [Progress](/spinners/progress): A ring filling up, fading, and starting over. Import as `Progress`.
+- [Spiral](/spinners/spiral): Dots spiralling in toward the centre. Import as `Spiral`.
+- [Cloud](/spinners/cloud): A cloud with an arrow rising into it. Import as `Cloud`.
+
+## Optional
+
+- [GitHub](https://github.com/jatinbansalwork-commits/spinkit-react): Source and issues.
+- [npm](https://www.npmjs.com/package/spinkit-react): The package itself.
+- [Use cases](/use-cases): Common patterns with pasteable code.

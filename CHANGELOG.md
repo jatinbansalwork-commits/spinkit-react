@@ -3,18 +3,43 @@
 All notable changes to `spinkit-react`. New entries go under **Unreleased**; on release that heading
 becomes the version number.
 
-## Unreleased (0.1.1)
+## 0.1.2
 
-### Docs
+### A proper front door
 
-- Restyle the docs site into a dark gallery layout: sidebar search, Overview, spinner list and a
-  three-column card grid.
-- Add badges, a Next.js `loading.tsx` example, troubleshooting and support sections to the README.
-- Add a contributing guide and GitHub issue templates.
-- Add repository, homepage and issue links to the package metadata.
+The kit worked. The homepage still felt like a packing slip.
 
-## 0.1.0
+So the docs got a real surface — warm dark, a little orange for pulse, a catalog instead of a
+scroll of names. Every spinner has a page. Twist size, color, speed, easing until it matches the
+frame. ⌘K when your hands are already there. A version chip that brings you back here.
+`/llms.txt` for anything that reads ahead.
 
-- First release: 34 spinners with `size`, `color`, `duration`, `easing`, `thickness`, `cap`,
-  `playState`, `label` and `motion` props.
-- Optional sound feedback from `spinkit-react/sound`.
+Same package. Less time translating "I like this motion" into "it's in the build."
+
+## 0.1.1
+
+Contributing guide, issue templates, README badges and package metadata.
+
+## 0.1.0 — Version one
+
+### The idea
+
+Loading is the beat between intent and result. Most products treat it like interstitial furniture —
+a leftover GIF, a CSS circle from a starter kit, or silence.
+
+The brief was almost rude in how small it was: waiting should look decided. One API. Props you'd
+actually reach for — size, color, speed, stroke. Motion that backs off when someone prefers less.
+Import it. Place it. Move on.
+
+No platform. No manifesto. Just a drawer of indicators that behave.
+
+### What shipped
+
+Thirty-four of them. From the quiet `Spin` to things with a little more personality — `Typing`,
+`Heartbeat`, `Honeycomb`, `Radar`.
+
+They all speak the same language: `size`, `color`, `duration`, `easing`, `thickness`, `cap`,
+`playState`, `label`, `motion`. A few shapes get extras (`arc`, `count`, `spokes`, `petals`).
+Optional sound lives at `spinkit-react/sound` for the rare moment a finish deserves a click.
+
+That was version one. Small on purpose.

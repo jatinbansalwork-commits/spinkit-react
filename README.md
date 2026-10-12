@@ -1,6 +1,6 @@
 # spinkit-react
 
-Tiny, accessible, dependency-free loading spinners for React.
+Hold on. Make it count. A quiet, dependency-free React kit for loading states.
 
 [![npm](https://img.shields.io/npm/v/spinkit-react)](https://www.npmjs.com/package/spinkit-react)
 [![bundle size](https://img.shields.io/bundlephobia/minzip/spinkit-react)](https://bundlephobia.com/package/spinkit-react)

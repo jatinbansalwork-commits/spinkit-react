@@ -26,7 +26,7 @@ function ButtonDemo() {
   return (
     <button type="button" className="btn" disabled={saving} onClick={() => setSaving(true)}>
       {saving ? <Spin size={16} label="Saving" /> : null}
-      {saving ? "Saving…" : "Save changes"}
+      {saving ? "Saving…" : "Publish"}
     </button>
   );
 }
@@ -42,7 +42,7 @@ function InputDemo() {
   }, [value]);
   return (
     <div className="input">
-      <input placeholder="Search spinners…" value={value} onChange={(e) => setValue(e.target.value)} />
+      <input placeholder="Find a motion…" value={value} onChange={(e) => setValue(e.target.value)} />
       {searching && <Spin size={16} label="Searching" />}
     </div>
   );
@@ -72,18 +72,18 @@ function SoundDemo() {
       <div className="row">
         <button type="button" className="btn" disabled={job === "running"} onClick={() => run("done")}>
           {job === "running" ? <Spin size={16} label="Exporting" /> : null}
-          Export report
+          Pack the PDF
         </button>
         <button type="button" className="btn btn-ghost" disabled={job === "running"} onClick={() => run("error")}>
-          Simulate failure
+          Break it on purpose
         </button>
       </div>
       <div className="row muted">
         <span className="status" data-job={job}>
-          {job === "idle" && "Ready"}
-          {job === "running" && "Working…"}
-          {job === "done" && "Export finished"}
-          {job === "error" && "Export failed"}
+          {job === "idle" && "Quiet"}
+          {job === "running" && "Busy…"}
+          {job === "done" && "Packed"}
+          {job === "error" && "Nope — try again"}
         </span>
         <label className="check">
           <input type="checkbox" checked={on} onChange={(e) => setOn(e.target.checked)} />
@@ -115,62 +115,62 @@ export function UseCases() {
         preview={<ButtonDemo />}
         code={`<button disabled={saving}>
   {saving && <Spin size={16} label="Saving" />}
-  {saving ? "Saving…" : "Save changes"}
+  {saving ? "Saving…" : "Publish"}
 </button>`}
       >
-        Swap the button content while a request is in flight. Click it to try.
+        While the save is out, the label steps aside. The spinner keeps the button honest.
       </Demo>
 
       <Demo
         id="inline"
-        title="Inline with text"
+        title="In the sentence"
         preview={
           <p className="inline-text">
-            Syncing 3 files <Dots size="1em" />
+            Pulling three files <Dots size="1em" />
           </p>
         }
         code={`<p>
-  Syncing 3 files <Dots size="1em" />
+  Pulling three files <Dots size="1em" />
 </p>`}
       >
-        String sizes work too. With <code>1em</code> the spinner scales with the surrounding font.
+        Size it to <code>1em</code> and it reads with the line — not beside it.
       </Demo>
 
       <Demo
         id="color"
-        title="Inherited color"
+        title="Takes the color"
         preview={
           <div className="row">
             <div className="alert alert-info">
-              <Beacon size={18} /> Deploying to production
+              <Beacon size={18} /> Pushing the build
             </div>
             <div className="alert alert-warn">
-              <Spin size={18} /> Retrying connection
+              <Spin size={18} /> Line went quiet — retrying
             </div>
           </div>
         }
         code={`<div className="alert-info">
-  <Beacon size={18} /> Deploying to production
+  <Beacon size={18} /> Pushing the build
 </div>`}
       >
-        Spinners use <code>currentColor</code> by default, so they match whatever text they sit next to.
+        Defaults to <code>currentColor</code>. Your alert styles do the rest.
       </Demo>
 
-      <Demo id="inputs" title="Input adornment" preview={<InputDemo />} code={`<div className="input">
+      <Demo id="inputs" title="Inside the field" preview={<InputDemo />} code={`<div className="input">
   <input value={query} onChange={...} />
   {searching && <Spin size={16} label="Searching" />}
 </div>`}>
-        Show activity inside a field, for example while search results load. Type something.
+        Mid-query, the field goes quiet. A spinner in the trailing edge says you're still looking.
       </Demo>
 
       <Demo
         id="overlay"
-        title="Content overlay"
+        title="Over the card"
         preview={
           <div className="card-overlay">
             <div className="fake-card">
-              <strong>Monthly revenue</strong>
-              <span>$48,210</span>
+              <strong>This week's total</strong>
+              <span>$12,480</span>
             </div>
             <div className="overlay">
               <Spin size={28} label="Refreshing" />
@@ -184,12 +184,12 @@ export function UseCases() {
   </div>
 </div>`}
       >
-        Cover stale content while it refreshes, without shifting the layout.
+        Keep the last good number. Soft veil, centered spinner — no jump when fresh data lands.
       </Demo>
 
       <Demo
         id="skeleton"
-        title="Placeholder content"
+        title="Fake rows"
         preview={
           <ul className="list">
             {[1, 2, 3].map((i) => (
@@ -205,32 +205,32 @@ export function UseCases() {
   <Lines size={28} label="Loading row" />
 </li>`}
       >
-        <code>Lines</code> works as a compact skeleton for rows that haven't arrived yet.
+        <code>Lines</code> sketches the row before the data shows up. Blank pages are a choice.
       </Demo>
 
       <Demo
         id="toast"
-        title="Toasts and progress"
+        title="Corner toast"
         preview={
           <div className="toast">
             <div>
-              <strong>Uploading report.pdf</strong>
-              <span>About 10 seconds left</span>
+              <strong>Sending moodboard.pdf</strong>
+              <span>Maybe ten seconds</span>
             </div>
             <Track size={48} label="Uploading" />
           </div>
         }
         code={`<Toast>
-  Uploading report.pdf
+  Sending moodboard.pdf
   <Track size={48} label="Uploading" />
 </Toast>`}
       >
-        <code>Track</code> is an indeterminate progress bar for work without a known end.
+        No percent? Don't invent one. <code>Track</code> only promises you're still going.
       </Demo>
 
       <Demo
         id="chat"
-        title="Chat and AI responses"
+        title="Someone's typing"
         preview={
           <div className="bubble">
             <Typing size={28} label="Assistant is typing" />
@@ -240,36 +240,35 @@ export function UseCases() {
   <Typing size={28} label="Assistant is typing" />
 </Bubble>`}
       >
-        A typing indicator for chat threads or streaming responses.
+        The bounce in the bubble while the other side gathers a reply. Familiar. Quieter.
       </Demo>
 
       <Demo
         id="page"
-        title="Full-page loading"
+        title="Whole screen"
         preview={
           <div className="page-frame">
             <Spin size={36} arc={0.35} thickness={2} />
-            <span>Preparing your workspace</span>
+            <span>One sec — laying out the board</span>
           </div>
         }
         code={`<main className="grid place-items-center min-h-screen">
   <Spin size={36} arc={0.35} thickness={2} />
-  <span>Preparing your workspace</span>
+  <span>One sec — laying out the board</span>
 </main>`}
       >
-        Center a larger spinner with a short message for route transitions or app boot.
+        Big mark. Short line. Route changes, cold starts, first paint.
       </Demo>
 
-      <Demo id="play-state" title="Pausing" preview={<PlayStateDemo />} code={`<Radar playState={running ? "running" : "paused"} />
+      <Demo id="play-state" title="Hold still" preview={<PlayStateDemo />} code={`<Radar playState={running ? "running" : "paused"} />
 // or simply
 <Radar paused />`}>
-        Freeze a spinner in place with <code>playState</code> or the <code>paused</code> shorthand, for
-        example when a task is waiting on the user.
+        Pause with <code>playState</code> or <code>paused</code> when a human is the bottleneck.
       </Demo>
 
       <Demo
         id="sound"
-        title="Sound feedback"
+        title="A little click"
         preview={<SoundDemo />}
         code={`import { playLoadingSound } from "spinkit-react/sound";
 
@@ -283,18 +282,17 @@ async function onExport() {
   }
 }`}
       >
-        Optional cues from <code>spinkit-react/sound</code> for when work starts, finishes or fails.
-        They're synthesized in the browser, so there are no audio files. They stay silent on touch
-        devices and can be switched off with <code>setLoadingSounds(false)</code>.
+        Optional beeps from <code>spinkit-react/sound</code> — start, done, error. No audio files.
+        Quiet on touch; <code>setLoadingSounds(false)</code> mutes the lot.
       </Demo>
 
       <Demo
         id="styling"
-        title="Custom styling"
+        title="Your CSS"
         preview={
           <div className="row">
             <Spin size={32} className="hover-brand" />
-            <span className="muted">Hover the spinner</span>
+            <span className="muted">Hover me</span>
           </div>
         }
         code={`<Spin className="hover-brand" />
@@ -303,17 +301,16 @@ async function onExport() {
 .hover-brand { --sk-color: #94a3b8; transition: color .2s; }
 .hover-brand:hover { --sk-color: #4f46e5; --sk-duration: .4s; }`}
       >
-        Pass <code>className</code> or <code>style</code>, or set the <code>--sk-color</code>,{" "}
-        <code>--sk-duration</code>, <code>--sk-thickness</code> and <code>--sk-ease</code> variables from
-        your own CSS.
+        <code>className</code>, <code>style</code>, or <code>--sk-*</code> tokens. Paint it like
+        the rest of the sheet.
       </Demo>
 
       <Demo
         id="suspense"
-        title="Suspense and Server Components"
+        title="Suspense"
         preview={
           <div className="row muted">
-            <Spin size={20} /> Loading dashboard…
+            <Spin size={20} /> Fetching the board…
           </div>
         }
         code={`// app/dashboard/page.tsx (a Server Component)
@@ -328,8 +325,8 @@ export default function Page() {
   );
 }`}
       >
-        Spinners have no hooks or client state, so they render in Server Components and Suspense
-        fallbacks without a <code>"use client"</code> boundary.
+        No hooks. Fine in Suspense fallbacks and Server Components — no <code>"use client"</code>
+        required.
       </Demo>
     </div>
   );
