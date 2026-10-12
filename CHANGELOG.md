@@ -14,6 +14,8 @@ scroll of names. Every spinner has a page. Twist size, color, speed, easing unti
 frame. ⌘K when your hands are already there. A version chip that brings you back here.
 `/llms.txt` for anything that reads ahead.
 
+Docs live at [spinkit-react.vercel.app](https://spinkit-react.vercel.app/).
+
 Same package. Less time translating "I like this motion" into "it's in the build."
 
 ## 0.1.1

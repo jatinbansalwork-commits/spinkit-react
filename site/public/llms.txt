@@ -55,6 +55,7 @@ The spinners respect reduced motion out of the box and require React 19 or later
 
 ## Optional
 
+- [Docs](https://spinkit-react.vercel.app/): Live gallery, playground, and use cases.
 - [GitHub](https://github.com/jatinbansalwork-commits/spinkit-react): Source and issues.
 - [npm](https://www.npmjs.com/package/spinkit-react): The package itself.
-- [Use cases](/use-cases): Common patterns with pasteable code.
+- [Use cases](https://spinkit-react.vercel.app/use-cases): Common patterns with pasteable code.

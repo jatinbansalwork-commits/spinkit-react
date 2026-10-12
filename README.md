@@ -2,6 +2,8 @@
 
 Hold on. Make it count. A quiet, dependency-free React kit for loading states.
 
+**Docs:** [spinkit-react.vercel.app](https://spinkit-react.vercel.app/)
+
 [![npm](https://img.shields.io/npm/v/spinkit-react)](https://www.npmjs.com/package/spinkit-react)
 [![bundle size](https://img.shields.io/bundlephobia/minzip/spinkit-react)](https://bundlephobia.com/package/spinkit-react)
 [![license](https://img.shields.io/npm/l/spinkit-react)](LICENSE)
