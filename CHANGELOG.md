@@ -7,6 +7,8 @@ becomes the version number.
 
 ### Docs
 
+- Restyle the docs site into a dark gallery layout: sidebar search, Overview, spinner list and a
+  three-column card grid.
 - Add badges, a Next.js `loading.tsx` example, troubleshooting and support sections to the README.
 - Add a contributing guide and GitHub issue templates.
 - Add repository, homepage and issue links to the package metadata.

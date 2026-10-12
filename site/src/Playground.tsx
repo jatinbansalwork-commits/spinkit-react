@@ -40,34 +40,37 @@ function snippet(entry: Entry, s: Settings) {
   return `import { ${entry.name} } from "spinkit-react";\n\n<${entry.name} ${props.join(" ")} />`;
 }
 
-export function Playground() {
-  const [selected, setSelected] = useState(CATALOG[0] as Entry);
+export function Playground({
+  entry,
+  showGallery = true,
+}: {
+  entry?: Entry;
+  showGallery?: boolean;
+}) {
+  const [selected, setSelected] = useState(entry ?? (CATALOG[0] as Entry));
   const [s, setS] = useState(INITIAL);
   const set = <K extends keyof Settings>(key: K, value: Settings[K]) => setS((prev) => ({ ...prev, [key]: value }));
 
-  const extra = selected.extra;
+  const current = entry ?? selected;
+  const extra = current.extra;
   const extraValue = extra ? (s.extra[extra.prop] ?? extra.default) : undefined;
   const props = useMemo(
     () => ({
       color: s.color || undefined,
-      duration: selected.duration / s.speed,
+      duration: current.duration / s.speed,
       easing: s.easing || undefined,
       thickness: s.thickness ?? undefined,
       cap: s.cap,
       playState: s.paused ? ("paused" as const) : ("running" as const),
     }),
-    [s, selected],
+    [s, current],
   );
 
   return (
     <>
       <div className="inspector">
         <div className="stage">
-          <selected.Component size={s.size} {...props} {...(extra ? { [extra.prop]: extraValue } : null)} />
-          <div className="stage-meta">
-            <strong>{selected.name}</strong>
-            <span>{selected.description}</span>
-          </div>
+          <current.Component size={s.size} {...props} {...(extra ? { [extra.prop]: extraValue } : null)} />
         </div>
 
         <div className="fields">
@@ -79,7 +82,7 @@ export function Playground() {
           </Field>
           <Field label="Color" value={s.color || "currentColor"}>
             <div className="swatches">
-              {["", "#4f46e5", "#0ea5e9", "#10b981", "#f59e0b", "#ef4444"].map((c) => (
+              {["", "#ffffff", "#a1a1aa", "#60a5fa", "#34d399", "#fbbf24", "#f87171"].map((c) => (
                 <button
                   type="button"
                   key={c || "current"}
@@ -101,24 +104,24 @@ export function Playground() {
               ))}
             </select>
           </Field>
-          <Field label="Thickness" value={s.thickness == null ? "default" : String(s.thickness)} disabled={!selected.stroke}>
+          <Field label="Thickness" value={s.thickness == null ? "default" : String(s.thickness)} disabled={!current.stroke}>
             <input
               type="range"
               min={0.5}
               max={4}
               step={0.25}
-              disabled={!selected.stroke}
+              disabled={!current.stroke}
               value={s.thickness ?? 2}
               onChange={(e) => set("thickness", +e.target.value)}
             />
           </Field>
-          <Field label="Cap" disabled={!selected.stroke}>
+          <Field label="Cap" disabled={!current.stroke}>
             <div className="segmented">
               {(["round", "butt", "square"] as const).map((c) => (
                 <button
                   type="button"
                   key={c}
-                  disabled={!selected.stroke}
+                  disabled={!current.stroke}
                   aria-pressed={s.cap === c}
                   onClick={() => set("cap", c)}
                 >
@@ -151,24 +154,28 @@ export function Playground() {
         </div>
 
         <div className="inspector-code">
-          <Code>{snippet(selected, s)}</Code>
+          <Code>{snippet(current, s)}</Code>
         </div>
       </div>
 
-      <div className="gallery">
-        {CATALOG.map((entry) => (
-          <button
-            type="button"
-            key={entry.name}
-            className="tile"
-            aria-pressed={entry === selected}
-            onClick={() => setSelected(entry)}
-          >
-            <entry.Component size={32} {...props} />
-            <span>{entry.name}</span>
-          </button>
-        ))}
-      </div>
+      {showGallery && (
+        <div className="gallery gallery-compact">
+          {CATALOG.map((item) => (
+            <button
+              type="button"
+              key={item.name}
+              className="tile"
+              aria-pressed={item.name === current.name}
+              onClick={() => setSelected(item)}
+            >
+              <div className="tile-preview">
+                <item.Component size={28} {...props} />
+              </div>
+              <span>{item.name}</span>
+            </button>
+          ))}
+        </div>
+      )}
     </>
   );
 }
