@@ -25,29 +25,15 @@ jobs:
           if [ "v$version" != "$GITHUB_REF_NAME" ]; then
             echo "Tag $GITHUB_REF_NAME does not match package.json version $version"; exit 1
           fi
-          node -p "process.version"
-          npm --version
       - run: pnpm install --frozen-lockfile
       - name: Publish to npm (OIDC trusted publishing)
         run: |
-          # setup-node writes _authToken=${NODE_AUTH_TOKEN}; empty token blocks OIDC.
-          unset NODE_AUTH_TOKEN NPM_TOKEN || true
-          for f in "${NPM_CONFIG_USERCONFIG:-}" "$HOME/.npmrc" "$RUNNER_TEMP/.npmrc"; do
-            if [ -n "$f" ] && [ -f "$f" ]; then
-              sed -i '/_authToken/d' "$f" || true
-              echo "--- $f ---"
-              cat "$f" || true
-            fi
-          done
-          echo "OIDC URL set: ${ACTIONS_ID_TOKEN_REQUEST_URL:+yes}"
-          echo "OIDC token set: ${ACTIONS_ID_TOKEN_REQUEST_TOKEN:+yes}"
-          # New trusted publishers default to stage-only; try direct publish first, then stage.
-          if npm publish --access public --provenance; then
-            echo "Published directly"
-          else
-            echo "Direct publish failed; trying npm stage publish (always allowed)"
-            npm stage publish --access public
+          # setup-node injects a dummy NODE_AUTH_TOKEN; that blocks OIDC exchange.
+          unset NODE_AUTH_TOKEN NPM_TOKEN
+          if [ -n "${NPM_CONFIG_USERCONFIG:-}" ] && [ -f "$NPM_CONFIG_USERCONFIG" ]; then
+            sed -i '/_authToken/d' "$NPM_CONFIG_USERCONFIG"
           fi
+          npm publish --access public --provenance
       - name: Create GitHub release
         run: |
           if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
