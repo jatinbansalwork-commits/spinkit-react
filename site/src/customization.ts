@@ -1,8 +1,9 @@
-import type { StrokeCap } from "spinkit-react";
+import type { SpinnerIntent, StrokeCap } from "spinkit-react";
 import type { Entry } from "./catalog";
 
 export interface Customization {
   size: number;
+  intent: SpinnerIntent | "custom";
   color: string;
   /** Duration in milliseconds (UI). Converted to seconds for the library. */
   durationMs: number;
@@ -13,9 +14,16 @@ export interface Customization {
   extra: Record<string, number>;
 }
 
+const INTENT_SIZES: Record<SpinnerIntent, number> = {
+  button: 16,
+  inline: 24,
+  page: 36,
+};
+
 export function initialCustomization(entry: Entry): Customization {
   return {
     size: 48,
+    intent: "custom",
     color: "#e0d9d3",
     durationMs: Math.round(entry.duration * 1000),
     opacity: 100,
@@ -28,12 +36,16 @@ export function initialCustomization(entry: Entry): Customization {
 
 function propLines(entry: Entry, c: Customization, paused: boolean) {
   const lines: string[] = [];
-  if (c.size !== 24) lines.push(`size={${c.size}}`);
+  if (c.intent !== "custom") {
+    lines.push(`intent="${c.intent}"`);
+  } else if (c.size !== 24) {
+    lines.push(`size={${c.size}}`);
+  }
   if (c.color && c.color.toLowerCase() !== "#e0d9d3") lines.push(`color="${c.color}"`);
   const durationSec = +(c.durationMs / 1000).toFixed(2);
   if (durationSec !== entry.duration) lines.push(`duration={${durationSec}}`);
   if (c.easing && c.easing !== "linear") lines.push(`easing="${c.easing}"`);
-  if (entry.stroke && c.thickness != null) lines.push(`thickness={${c.thickness}}`);
+  if (entry.stroke && c.thickness != null && c.intent === "custom") lines.push(`thickness={${c.thickness}}`);
   if (entry.stroke && c.cap !== "round") lines.push(`cap="${c.cap}"`);
   if (paused) lines.push(`playState="paused"`);
   const extra = entry.extra;
@@ -79,15 +91,25 @@ export function ${entry.name}Demo() {
 /** Runtime props passed to the live preview. */
 export function previewProps(entry: Entry, c: Customization, paused: boolean) {
   const extra = entry.extra;
+  const intent = c.intent === "custom" ? undefined : c.intent;
   return {
-    size: c.size,
+    size: intent ? undefined : c.size,
+    intent,
     color: c.color || undefined,
     duration: c.durationMs / 1000,
     easing: c.easing || undefined,
-    thickness: c.thickness ?? undefined,
+    thickness: intent ? undefined : (c.thickness ?? undefined),
     cap: entry.stroke ? c.cap : undefined,
     playState: paused ? ("paused" as const) : ("running" as const),
     style: c.opacity < 100 ? { opacity: c.opacity / 100 } : undefined,
     ...(extra ? { [extra.prop]: c.extra[extra.prop] ?? extra.default } : null),
   };
+}
+
+export function applyIntent(
+  intent: SpinnerIntent | "custom",
+  size: number,
+): { intent: SpinnerIntent | "custom"; size: number } {
+  if (intent === "custom") return { intent, size };
+  return { intent, size: INTENT_SIZES[intent] };
 }

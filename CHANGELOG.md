@@ -3,7 +3,17 @@
 All notable changes to `spinkit-react`. New entries go under **Unreleased**; on release that heading
 becomes the version number.
 
-## Unreleased (0.1.3)
+## 0.2.0
+
+### Added
+
+- `intent` presets on every spinner: `"button"`, `"inline"`, `"page"` — size and stroke weight for
+  the moments you already design for.
+- `SpinnerGroup` layout helper for spinner + label without custom flex CSS.
+- Optional `value` (0–1) on `Track` and `Progress` for determinate loads.
+- Four new indicators: `Spark`, `Waveform`, `Orbit`, `Shimmer`.
+- Docs: playground copy-snippet label, intent controls, “Pair with brand” page, and use-case demos
+  for the new APIs.
 
 ## 0.1.2
 

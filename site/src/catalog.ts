@@ -112,6 +112,10 @@ export const CATALOG: Entry[] = [
   entry("Progress", Kit.Progress, "A ring filling up, fading, and starting over.", 1.8, true),
   entry("Spiral", Kit.Spiral, "Dots spiralling in toward the centre.", 1.2, false),
   entry("Cloud", Kit.Cloud, "A cloud with an arrow rising into it.", 1.4, true),
+  entry("Spark", Kit.Spark, "Soft sparks for AI thinking moments.", 1.4, false),
+  entry("Waveform", Kit.Waveform, "A voice-style waveform for streaming audio.", 1, false),
+  entry("Orbit", Kit.Orbit, "Three agents orbiting a shared centre.", 1.6, true),
+  entry("Shimmer", Kit.Shimmer, "A soft shimmer for text or card placeholders.", 1.5, false),
 ];
 
 export function getEntry(slug: string) {

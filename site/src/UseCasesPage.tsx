@@ -4,6 +4,7 @@ import { UseCases } from "./UseCases";
 
 const SECTIONS = [
   ["buttons", "Buttons"],
+  ["intent", "Intent presets"],
   ["inline", "Inline with text"],
   ["color", "Inherited color"],
   ["inputs", "Input adornment"],
@@ -11,6 +12,7 @@ const SECTIONS = [
   ["skeleton", "Placeholder content"],
   ["toast", "Toasts and progress"],
   ["chat", "Chat and AI"],
+  ["determinate", "Determinate progress"],
   ["page", "Full-page loading"],
   ["play-state", "Pausing"],
   ["sound", "Sound feedback"],

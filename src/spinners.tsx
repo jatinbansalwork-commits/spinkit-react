@@ -348,20 +348,36 @@ export function Battery(props: SpinnerProps) {
   );
 }
 
-/** An indeterminate progress bar. */
-export function Track(props: SpinnerProps) {
+export interface TrackProps extends SpinnerProps {
+  /** 0–1. When set, shows a determinate fill instead of the indeterminate sweep. */
+  value?: number;
+}
+
+/** An indeterminate progress bar — or determinate when `value` is set. */
+export function Track({ value, ...props }: TrackProps) {
+  const determinate = value != null;
+  const fill = determinate ? round(20 * Math.min(1, Math.max(0, value))) : 0;
   return (
     <Spinner
       name="track"
       defaultDuration={1.5}
       css={
         ".sk-track .sk-a{transform-origin:2px 12px}" +
-        anim("track", "0%{transform:translateX(0) scaleX(0)}55%{transform:translateX(5px) scaleX(.6)}100%{transform:translateX(20px) scaleX(0)}", "ease-in-out")
+        anim(
+          "track",
+          "0%{transform:translateX(0) scaleX(0)}55%{transform:translateX(5px) scaleX(.6)}100%{transform:translateX(20px) scaleX(0)}",
+          "ease-in-out",
+        )
       }
       {...props}
+      paused={determinate || props.paused}
     >
       <rect className="sk-t" x="2" y="10.5" width="20" height="3" rx="1.5" fill="currentColor" />
-      <rect className="sk-a" x="2" y="10.5" width="20" height="3" rx="1.5" fill="currentColor" />
+      {determinate ? (
+        <rect x="2" y="10.5" width={fill} height="3" rx="1.5" fill="currentColor" />
+      ) : (
+        <rect className="sk-a" x="2" y="10.5" width="20" height="3" rx="1.5" fill="currentColor" />
+      )}
     </Spinner>
   );
 }
@@ -679,8 +695,15 @@ export function Cursor(props: SpinnerProps) {
   );
 }
 
-/** A ring filling up, fading, and starting over. */
-export function Progress(props: SpinnerProps) {
+export interface ProgressProps extends SpinnerProps {
+  /** 0–1. When set, shows a determinate arc instead of the looping fill. */
+  value?: number;
+}
+
+/** A ring filling up — looping by default, or determinate when `value` is set. */
+export function Progress({ value, ...props }: ProgressProps) {
+  const determinate = value != null;
+  const offset = determinate ? round(100 * (1 - Math.min(1, Math.max(0, value)))) : 100;
   return (
     <Spinner
       name="progress"
@@ -694,10 +717,23 @@ export function Progress(props: SpinnerProps) {
         )
       }
       {...props}
+      paused={determinate || props.paused}
     >
       <circle className="sk-s sk-t" cx="12" cy="12" r="9.5" />
       <g transform="rotate(-90 12 12)">
-        <circle className="sk-a sk-s" cx="12" cy="12" r="9.5" pathLength={100} strokeDasharray="100 100" />
+        {determinate ? (
+          <circle
+            className="sk-s"
+            cx="12"
+            cy="12"
+            r="9.5"
+            pathLength={100}
+            strokeDasharray="100 100"
+            strokeDashoffset={offset}
+          />
+        ) : (
+          <circle className="sk-a sk-s" cx="12" cy="12" r="9.5" pathLength={100} strokeDasharray="100 100" />
+        )}
       </g>
     </Spinner>
   );
@@ -753,6 +789,104 @@ export function Cloud(props: SpinnerProps) {
         <line className="sk-s" x1="12" y1="16.5" x2="12" y2="11" />
         <polyline className="sk-s" points="9.75 13.25 12 11 14.25 13.25" />
       </g>
+    </Spinner>
+  );
+}
+
+/** Soft sparks for AI “thinking” moments. */
+export function Spark(props: SpinnerProps) {
+  const sparks = [
+    { cx: 12, cy: 5.5, r: 1.6, o: 0 },
+    { cx: 17.5, cy: 10, r: 1.2, o: 0.25 },
+    { cx: 15.5, cy: 16.5, r: 1.4, o: 0.5 },
+    { cx: 8.5, cy: 16.5, r: 1.1, o: 0.65 },
+    { cx: 6.5, cy: 10, r: 1.35, o: 0.85 },
+  ];
+  return (
+    <Spinner
+      name="spark"
+      defaultDuration={1.4}
+      css={anim("spark", "0%,100%{opacity:.2;transform:scale(.55)}50%{opacity:1;transform:scale(1)}", "ease-in-out")}
+      {...props}
+    >
+      {sparks.map((s) => (
+        <circle key={`${s.cx}-${s.cy}`} className="sk-a sk-f" cx={s.cx} cy={s.cy} r={s.r} fill="currentColor" style={phase(s.o)} />
+      ))}
+    </Spinner>
+  );
+}
+
+/** A voice-style waveform for streaming or speech. */
+export function Waveform(props: SpinnerProps) {
+  const bars = [
+    { x: 4, h: 6, o: 0 },
+    { x: 8, h: 12, o: 0.15 },
+    { x: 12, h: 16, o: 0.3 },
+    { x: 16, h: 10, o: 0.45 },
+    { x: 20, h: 7, o: 0.6 },
+  ];
+  return (
+    <Spinner
+      name="waveform"
+      defaultDuration={1}
+      css={anim("waveform", "0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}", "ease-in-out")}
+      {...props}
+    >
+      {bars.map((b) => (
+        <rect
+          key={b.x}
+          className="sk-a sk-f"
+          x={b.x - 1.1}
+          y={12 - b.h / 2}
+          width="2.2"
+          height={b.h}
+          rx="1.1"
+          fill="currentColor"
+          style={phase(b.o)}
+        />
+      ))}
+    </Spinner>
+  );
+}
+
+/** Three agents orbiting a shared centre. */
+export function Orbit(props: SpinnerProps) {
+  return (
+    <Spinner
+      name="orbit"
+      defaultDuration={1.6}
+      css={
+        ".sk-orbit{--sk-tw:1.5}" +
+        spinCss("orbit") +
+        ".sk-orbit .sk-orbit-ring{opacity:.25}"
+      }
+      {...props}
+    >
+      <circle className="sk-s sk-orbit-ring" cx="12" cy="12" r="8.5" />
+      <g className="sk-a">
+        {[0, 120, 240].map((deg) => {
+          const [cx, cy] = polar(8.5, deg);
+          return <circle key={deg} cx={cx} cy={cy} r="2" fill="currentColor" />;
+        })}
+      </g>
+    </Spinner>
+  );
+}
+
+/** A soft shimmer for text or card placeholders. */
+export function Shimmer(props: SpinnerProps) {
+  return (
+    <Spinner
+      name="shimmer"
+      defaultDuration={1.5}
+      css={
+        ".sk-shimmer .sk-shimmer-band{animation-name:sk-shimmer;animation-timing-function:ease-in-out}" +
+        "@keyframes sk-shimmer{0%{transform:translateX(-14px);opacity:0}35%,65%{opacity:.85}100%{transform:translateX(14px);opacity:0}}"
+      }
+      {...props}
+    >
+      <rect className="sk-t" x="3" y="8" width="18" height="8" rx="4" fill="currentColor" />
+      <rect className="sk-a sk-shimmer-band" x="5" y="8" width="8" height="8" rx="4" fill="currentColor" />
     </Spinner>
   );
 }

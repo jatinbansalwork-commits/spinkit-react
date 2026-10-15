@@ -50,16 +50,28 @@ export function Overview() {
         ))}
       </div>
 
-      <Link to="/use-cases" className="use-cases-card">
-        <div>
-          <p className="use-cases-kicker">Patterns</p>
-          <h2>Where the pause lives</h2>
-          <p>Buttons mid-save, cards refreshing, chat thinking, Suspense holding — steal the recipe.</p>
-        </div>
-        <span className="use-cases-arrow" aria-hidden="true">
-          →
-        </span>
-      </Link>
+      <div className="overview-cards">
+        <Link to="/use-cases" className="use-cases-card">
+          <div>
+            <p className="use-cases-kicker">Patterns</p>
+            <h2>Where the pause lives</h2>
+            <p>Buttons, overlays, chat, Suspense — steal the recipe.</p>
+          </div>
+          <span className="use-cases-arrow" aria-hidden="true">
+            →
+          </span>
+        </Link>
+        <Link to="/brand" className="use-cases-card">
+          <div>
+            <p className="use-cases-kicker">Brand</p>
+            <h2>Pair with a color</h2>
+            <p>Drop a hex and see the whole kit wear it.</p>
+          </div>
+          <span className="use-cases-arrow" aria-hidden="true">
+            →
+          </span>
+        </Link>
+      </div>
 
       <p className="overview-note">
         Designed by{" "}

@@ -891,10 +891,112 @@ button {
   background: var(--panel);
 }
 
+.playground-code-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 12px;
+  padding: 14px 16px 0;
+}
+
+.playground-code-label {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.playground-code-hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--faint);
+}
+
 .playground-code .code {
   border: 0;
   border-radius: 0;
   background: transparent;
+}
+
+.overview-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 40px;
+}
+
+.overview-cards .use-cases-card {
+  margin-top: 0;
+}
+
+.brand-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 28px 0 32px;
+}
+
+.brand-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.brand-field-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-field-row input[type="color"] {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  cursor: pointer;
+}
+
+.brand-field-row input[type="text"] {
+  flex: 1;
+  min-width: 0;
+  max-width: 180px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.brand-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 10px;
+  margin: 8px 0 40px;
+}
+
+.brand-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.brand-tile-preview {
+  display: grid;
+  place-items: center;
+  min-height: 40px;
 }
 
 /* Prop docs */
@@ -1283,6 +1385,12 @@ button {
   .doc-page,
   .overview {
     max-width: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .overview-cards {
+    grid-template-columns: 1fr;
   }
 }
 

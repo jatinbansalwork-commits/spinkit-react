@@ -1,7 +1,7 @@
 {
   "name": "spinkit-react",
-  "version": "0.1.3",
-  "description": "Tiny, accessible, dependency-free loading spinners for React.",
+  "version": "0.2.0",
+  "description": "Hold on. Make it count. A quiet, dependency-free React kit for loading states.",
   "license": "MIT",
   "author": "Jatin Bansal",
   "repository": {

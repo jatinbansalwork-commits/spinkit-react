@@ -1,5 +1,16 @@
 import { type ReactNode, useEffect, useState } from "react";
-import { Beacon, Dots, Lines, Radar, Spin, Track, Typing } from "spinkit-react";
+import {
+  Beacon,
+  Dots,
+  Lines,
+  Progress,
+  Radar,
+  Spark,
+  Spin,
+  SpinnerGroup,
+  Track,
+  Typing,
+} from "spinkit-react";
 import { playLoadingSound, setLoadingSounds } from "spinkit-react/sound";
 import { Code } from "./Code";
 
@@ -25,9 +36,31 @@ function ButtonDemo() {
   }, [saving]);
   return (
     <button type="button" className="btn" disabled={saving} onClick={() => setSaving(true)}>
-      {saving ? <Spin size={16} label="Saving" /> : null}
-      {saving ? "Saving…" : "Publish"}
+      {saving ? (
+        <SpinnerGroup>
+          <Spin intent="button" label="Saving" />
+          Saving…
+        </SpinnerGroup>
+      ) : (
+        "Publish"
+      )}
     </button>
+  );
+}
+
+function DeterminateDemo() {
+  const [value, setValue] = useState(0.15);
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setValue((v) => (v >= 1 ? 0.1 : +(v + 0.08).toFixed(2)));
+    }, 400);
+    return () => window.clearInterval(id);
+  }, []);
+  return (
+    <div className="row">
+      <Track size={64} value={value} label={`${Math.round(value * 100)} percent`} />
+      <Progress size={36} value={value} label={`${Math.round(value * 100)} percent`} />
+    </div>
   );
 }
 
@@ -113,12 +146,41 @@ export function UseCases() {
         id="buttons"
         title="Buttons"
         preview={<ButtonDemo />}
-        code={`<button disabled={saving}>
-  {saving && <Spin size={16} label="Saving" />}
-  {saving ? "Saving…" : "Publish"}
+        code={`import { Spin, SpinnerGroup } from "spinkit-react";
+
+<button disabled={saving}>
+  {saving ? (
+    <SpinnerGroup>
+      <Spin intent="button" label="Saving" />
+      Saving…
+    </SpinnerGroup>
+  ) : (
+    "Publish"
+  )}
 </button>`}
       >
-        While the save is out, the label steps aside. The spinner keeps the button honest.
+        While the save is out, <code>intent="button"</code> and <code>SpinnerGroup</code> keep the
+        mark and label aligned.
+      </Demo>
+
+      <Demo
+        id="intent"
+        title="Intent presets"
+        preview={
+          <div className="row">
+            <Spin intent="button" />
+            <span className="inline-text">
+              Pulling files <Dots intent="inline" />
+            </span>
+            <Spin intent="page" />
+          </div>
+        }
+        code={`<Spin intent="button" />
+<p>Pulling files <Dots intent="inline" /></p>
+<Spin intent="page" />`}
+      >
+        <code>button</code>, <code>inline</code>, and <code>page</code> set size and stroke weight
+        for the moments you already design for.
       </Demo>
 
       <Demo
@@ -232,15 +294,35 @@ export function UseCases() {
         id="chat"
         title="Someone's typing"
         preview={
-          <div className="bubble">
-            <Typing size={28} label="Assistant is typing" />
+          <div className="row">
+            <div className="bubble">
+              <Typing size={28} label="Assistant is typing" />
+            </div>
+            <div className="bubble">
+              <Spark size={28} label="Model thinking" />
+            </div>
           </div>
         }
         code={`<Bubble>
   <Typing size={28} label="Assistant is typing" />
+</Bubble>
+
+<Bubble>
+  <Spark size={28} label="Model thinking" />
 </Bubble>`}
       >
-        The bounce in the bubble while the other side gathers a reply. Familiar. Quieter.
+        The bounce in the bubble — or <code>Spark</code> when the model is thinking, not typing.
+      </Demo>
+
+      <Demo
+        id="determinate"
+        title="When you know the percent"
+        preview={<DeterminateDemo />}
+        code={`<Track value={0.62} label="62 percent" />
+<Progress value={0.62} label="62 percent" />`}
+      >
+        Pass <code>value</code> (0–1) to <code>Track</code> or <code>Progress</code> when the load
+        isn't a mystery anymore.
       </Demo>
 
       <Demo

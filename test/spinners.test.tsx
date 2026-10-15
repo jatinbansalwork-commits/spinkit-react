@@ -1,10 +1,12 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
-import * as Spinners from "../src";
+import * as Kit from "../src";
 
 afterEach(cleanup);
 
-const entries = Object.entries(Spinners) as [string, (typeof Spinners)["Spin"]][];
+const entries = Object.entries(Kit).filter(
+  ([name, value]) => typeof value === "function" && name !== "SpinnerGroup",
+) as [string, (typeof Kit)["Spin"]][];
 
 describe.each(entries)("%s", (_, Component) => {
   it("renders an accessible status with a default label", () => {
@@ -34,7 +36,7 @@ describe.each(entries)("%s", (_, Component) => {
 });
 
 it("maps easing, thickness, cap and playState to CSS variables", () => {
-  render(<Spinners.Spin easing="ease-in" thickness={3} cap="butt" playState="paused" />);
+  render(<Kit.Spin easing="ease-in" thickness={3} cap="butt" playState="paused" />);
   const el = screen.getByRole("status");
   expect(el.style.getPropertyValue("--sk-ease")).toBe("ease-in");
   expect(el.style.getPropertyValue("--sk-thickness")).toBe("3");
@@ -43,22 +45,59 @@ it("maps easing, thickness, cap and playState to CSS variables", () => {
 });
 
 it.each([
-  ["Dots", <Spinners.Dots count={5} />, "circle", 5],
-  ["Typing", <Spinners.Typing count={99} />, "circle", 7],
-  ["Bars", <Spinners.Bars count={6} />, "rect", 6],
-  ["Radial", <Spinners.Radial spokes={12} />, "line", 12],
-  ["Bloom", <Spinners.Bloom petals={4} />, "circle", 4],
+  ["button", "16px", "2"],
+  ["inline", "1em", "2"],
+  ["page", "36px", "2.25"],
+] as const)("intent %s sets size and thickness presets", (intent, size, thickness) => {
+  render(<Kit.Spin intent={intent} />);
+  const el = screen.getByRole("status");
+  expect(el.style.width).toBe(size);
+  expect(el.style.getPropertyValue("--sk-thickness")).toBe(thickness);
+});
+
+it("lets explicit size win over intent", () => {
+  render(<Kit.Spin intent="button" size={40} />);
+  expect(screen.getByRole("status").style.width).toBe("40px");
+});
+
+it.each([
+  ["Dots", <Kit.Dots count={5} />, "circle", 5],
+  ["Typing", <Kit.Typing count={99} />, "circle", 7],
+  ["Bars", <Kit.Bars count={6} />, "rect", 6],
+  ["Radial", <Kit.Radial spokes={12} />, "line", 12],
+  ["Bloom", <Kit.Bloom petals={4} />, "circle", 4],
 ] as const)("%s respects its element count prop", (_, element, tag, expected) => {
   render(element);
   expect(screen.getByRole("status").querySelectorAll(tag).length).toBe(expected);
 });
 
+it("Track and Progress honor determinate value", () => {
+  const { rerender } = render(<Kit.Track value={0.5} />);
+  expect(screen.getByRole("status").querySelector("rect:last-of-type")?.getAttribute("width")).toBe("10");
+  rerender(<Kit.Progress value={0.25} />);
+  expect(screen.getByRole("status").querySelector("circle.sk-s:not(.sk-t)")?.getAttribute("stroke-dashoffset")).toBe(
+    "75",
+  );
+});
+
+it("SpinnerGroup lays out children with a gap token", () => {
+  render(
+    <Kit.SpinnerGroup gap={12} data-testid="group">
+      <Kit.Spin intent="button" />
+      <span>Saving</span>
+    </Kit.SpinnerGroup>,
+  );
+  const group = screen.getByTestId("group");
+  expect(group.className).toContain("sk-group");
+  expect(group.style.getPropertyValue("--sk-gap")).toBe("12px");
+});
+
 it("injects each stylesheet only once", () => {
   render(
     <>
-      <Spinners.Spin />
-      <Spinners.Spin />
-      <Spinners.Dots />
+      <Kit.Spin />
+      <Kit.Spin />
+      <Kit.Dots />
     </>,
   );
   expect(document.querySelectorAll('style[data-href="sk-base"]').length).toBe(1);

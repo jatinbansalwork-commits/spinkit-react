@@ -175,6 +175,9 @@ function ShellLayout() {
             <NavLink to="/use-cases" className={({ isActive }) => (isActive ? "active" : undefined)}>
               Use cases
             </NavLink>
+            <NavLink to="/brand" className={({ isActive }) => (isActive ? "active" : undefined)}>
+              Pair with brand
+            </NavLink>
             <NavLink to="/changelog" className={({ isActive }) => (isActive ? "active" : undefined)}>
               Release notes
             </NavLink>
@@ -239,6 +242,9 @@ function DefaultRail() {
         </li>
         <li>
           <Link to="/use-cases">Use cases</Link>
+        </li>
+        <li>
+          <Link to="/brand">Pair with brand</Link>
         </li>
         <li>
           <Link to="/changelog">Release notes</Link>

@@ -1,18 +1,24 @@
 # spinkit-react
 
-> A quiet React kit for the pause between tap and result. Thirty-four loading indicators, one calm API.
+> A quiet React kit for the pause between tap and result. Thirty-eight loading indicators, one calm API.
 
 ```sh
 npm install spinkit-react
 ```
 
 ```tsx
-import { Spin } from "spinkit-react";
+import { Spin, SpinnerGroup } from "spinkit-react";
 
-<Spin size={16} />
+<SpinnerGroup>
+  <Spin intent="button" />
+  Saving…
+</SpinnerGroup>
 ```
 
-All indicators support `size`, `color`, `duration`, `easing`, `thickness`, `cap`, `playState`, `label` and `motion`. Some expose additional controls like `count`, `arc`, `spokes` or `petals`.
+All indicators support `size`, `intent` (`button` | `inline` | `page`), `color`, `duration`,
+`easing`, `thickness`, `cap`, `playState`, `label` and `motion`. `Track` and `Progress` also accept
+optional `value` (0–1) for determinate progress. Some expose additional controls like `count`,
+`arc`, `spokes` or `petals`. Use `SpinnerGroup` to lay out a spinner beside a label.
 
 The spinners respect reduced motion out of the box and require React 19 or later.
 
@@ -34,7 +40,7 @@ The spinners respect reduced motion out of the box and require React 19 or later
 - [Honeycomb](/spinners/honeycomb): A ring of hexagons around a centre cell. Import as `Honeycomb`.
 - [Signal](/spinners/signal): Waves lighting up from the source outward. Import as `Signal`.
 - [Battery](/spinners/battery): A battery charging cell by cell. Import as `Battery`.
-- [Track](/spinners/track): An indeterminate progress bar. Import as `Track`.
+- [Track](/spinners/track): An indeterminate or determinate progress bar (`value` 0–1). Import as `Track`.
 - [Gear](/spinners/gear): A turning gear. Import as `Gear`.
 - [Sun](/spinners/sun): Rays turning around a glowing core. Import as `Sun`.
 - [Radar](/spinners/radar): A sweep that lights up a blip as it passes. Import as `Radar`.
@@ -49,13 +55,18 @@ The spinners respect reduced motion out of the box and require React 19 or later
 - [Helix](/spinners/helix): Two strands of dots twisting like DNA. Import as `Helix`.
 - [Sync](/spinners/sync): Two arrows cycling around each other. Import as `Sync`.
 - [Cursor](/spinners/cursor): A line being typed with a blinking caret. Import as `Cursor`.
-- [Progress](/spinners/progress): A ring filling up, fading, and starting over. Import as `Progress`.
+- [Progress](/spinners/progress): A ring filling up (`value` 0–1 for determinate). Import as `Progress`.
 - [Spiral](/spinners/spiral): Dots spiralling in toward the centre. Import as `Spiral`.
 - [Cloud](/spinners/cloud): A cloud with an arrow rising into it. Import as `Cloud`.
+- [Spark](/spinners/spark): Soft sparks for AI thinking moments. Import as `Spark`.
+- [Waveform](/spinners/waveform): A voice-style waveform for streaming audio. Import as `Waveform`.
+- [Orbit](/spinners/orbit): Three agents orbiting a shared centre. Import as `Orbit`.
+- [Shimmer](/spinners/shimmer): A soft shimmer for text or card placeholders. Import as `Shimmer`.
 
 ## Optional
 
 - [Docs](https://spinkit-react.vercel.app/): Live gallery, playground, and use cases.
+- [Pair with brand](https://spinkit-react.vercel.app/brand): Preview every spinner in a brand color.
 - [GitHub](https://github.com/jatinbansalwork-commits/spinkit-react): Source and issues.
 - [npm](https://www.npmjs.com/package/spinkit-react): The package itself.
 - [Use cases](https://spinkit-react.vercel.app/use-cases): Common patterns with pasteable code.

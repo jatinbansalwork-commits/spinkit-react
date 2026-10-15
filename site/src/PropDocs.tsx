@@ -39,6 +39,28 @@ export function ${entry.name}Size() {
 }`,
   },
   {
+    id: "intent",
+    title: "Intent",
+    body: (
+      <>
+        Designed presets for common moments: <code>button</code> (16px), <code>inline</code> (
+        <code>1em</code>), and <code>page</code> (36px). Explicit <code>size</code> still wins.
+      </>
+    ),
+    demo: (entry) => (
+      <div className="demo-row">
+        <entry.Component intent="button" color="#e0d9d3" />
+        <entry.Component intent="inline" color="#e0d9d3" />
+        <entry.Component intent="page" color="#e0d9d3" />
+      </div>
+    ),
+    code: (entry) => `import { ${entry.name} } from "spinkit-react";
+
+<${entry.name} intent="button" />
+<${entry.name} intent="inline" />
+<${entry.name} intent="page" />`,
+  },
+  {
     id: "custom-classes",
     title: "Custom Classes",
     body: (

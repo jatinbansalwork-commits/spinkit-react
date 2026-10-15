@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { CAPS, EASINGS, SIZE_PRESETS, type Entry } from "./catalog";
 import { Code } from "./Code";
 import {
+  applyIntent,
   initialCustomization,
   previewProps,
   snippet,
@@ -76,10 +77,25 @@ export function Playground({ entry }: { entry: Entry }) {
         {panelOpen && (
           <div className="controls">
             <Segmented
+              label="Intent"
+              value={c.intent}
+              options={[
+                { label: "Custom", value: "custom" as const },
+                { label: "Button", value: "button" as const },
+                { label: "Inline", value: "inline" as const },
+                { label: "Page", value: "page" as const },
+              ]}
+              onChange={(intent) => setC((prev) => ({ ...prev, ...applyIntent(intent, prev.size) }))}
+            />
+
+            <Segmented
               label="Size"
               value={c.size}
               options={SIZE_PRESETS.map((p) => ({ label: p.label, value: p.value }))}
-              onChange={(v) => set("size", v)}
+              onChange={(v) => {
+                set("size", v);
+                set("intent", "custom");
+              }}
             />
 
             <Segmented
@@ -208,7 +224,11 @@ export function Playground({ entry }: { entry: Entry }) {
           </div>
         )}
 
-        <div className="playground-code">
+        <div className="playground-code" id="snippet">
+          <div className="playground-code-head">
+            <p className="playground-code-label">Copy snippet</p>
+            <p className="playground-code-hint">Import + JSX with your live props</p>
+          </div>
           <Code>{code}</Code>
         </div>
       </div>

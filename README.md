@@ -8,12 +8,12 @@ Hold on. Make it count. A quiet, dependency-free React kit for loading states.
 [![bundle size](https://img.shields.io/bundlephobia/minzip/spinkit-react)](https://bundlephobia.com/package/spinkit-react)
 [![license](https://img.shields.io/npm/l/spinkit-react)](LICENSE)
 
-- 34 SVG spinners, ~18 KB minified for the whole set, tree-shakable
+- 38 SVG spinners, tree-shakable, ~20 KB minified for the whole set
+- `intent` presets (`button` / `inline` / `page`) and `SpinnerGroup` for common layouts
+- Determinate `value` on `Track` and `Progress` when you know the percent
 - No CSS import: styles are injected once via React 19 stylesheet hoisting
 - Works in Server Components and Suspense fallbacks (no hooks, no client state)
-- `role="status"` with an accessible label
-- Slows down automatically for users who prefer reduced motion
-- Tune size, color, duration, easing, stroke thickness, line caps and play state
+- `role="status"` with an accessible label; respects reduced motion
 
 ## Install
 
@@ -58,7 +58,7 @@ export function SaveButton({ saving }: { saving: boolean }) {
 | `Honeycomb` | A ring of hexagons around a centre cell      |                   |
 | `Signal`    | Waves lighting up from the source outward    |                   |
 | `Battery`   | A battery charging cell by cell              |                   |
-| `Track`     | An indeterminate progress bar                |                   |
+| `Track`     | An indeterminate (or determinate) bar        | `value` 0–1       |
 | `Gear`      | A turning gear                               |                   |
 | `Sun`       | Rays turning around a glowing core           |                   |
 | `Radar`     | A sweep that lights up a blip as it passes   |                   |
@@ -73,26 +73,33 @@ export function SaveButton({ saving }: { saving: boolean }) {
 | `Helix`     | Two strands of dots twisting like DNA        |                   |
 | `Sync`      | Two arrows cycling around each other         |                   |
 | `Cursor`    | A line being typed with a blinking caret     |                   |
-| `Progress`  | A ring filling up, fading, and starting over |                   |
+| `Progress`  | A ring filling up, fading, and starting over | `value` 0–1       |
 | `Spiral`    | Dots spiralling in toward the centre         |                   |
 | `Cloud`     | A cloud with an arrow rising into it         |                   |
+| `Spark`     | Soft sparks for AI thinking moments          |                   |
+| `Waveform`  | A voice-style waveform for streaming audio   |                   |
+| `Orbit`     | Three agents orbiting a shared centre        |                   |
+| `Shimmer`   | A soft shimmer for text or card placeholders |                   |
+
+Also: `SpinnerGroup` — inline flex wrapper for spinner + label (`gap` prop).
 
 ## Props
 
 Shared by every spinner. Any other prop goes to the root `span`.
 
-| Prop        | Type                            | Default        | Notes                              |
-| ----------- | ------------------------------- | -------------- | ---------------------------------- |
-| `size`      | `number \| string`              | `24`           | Numbers are pixels                 |
-| `color`     | `string`                        | `currentColor` |                                    |
-| `duration`  | `number`                        | per spinner    | Seconds per cycle                  |
-| `easing`    | `string`                        | per spinner    | Any CSS timing function            |
-| `thickness` | `number`                        | per spinner    | Stroke width on a 24×24 grid       |
-| `cap`       | `"round" \| "butt" \| "square"` | `"round"`      | Stroke line cap                    |
-| `playState` | `"running" \| "paused"`         | `"running"`    |                                    |
-| `paused`    | `boolean`                       | `false`        | Shorthand for `playState="paused"` |
-| `label`     | `string`                        | `"Loading"`    | Accessible label                   |
-| `motion`    | `"reduce" \| "always"`          | `"reduce"`     | Reduced-motion behaviour           |
+| Prop        | Type                            | Default        | Notes                                          |
+| ----------- | ------------------------------- | -------------- | ---------------------------------------------- |
+| `size`      | `number \| string`              | `24`           | Numbers are pixels; overridden by `intent`     |
+| `intent`    | `"button" \| "inline" \| "page"`| —              | Designed size/thickness presets                |
+| `color`     | `string`                        | `currentColor` |                                                |
+| `duration`  | `number`                        | per spinner    | Seconds per cycle                              |
+| `easing`    | `string`                        | per spinner    | Any CSS timing function                        |
+| `thickness` | `number`                        | per spinner    | Stroke width on a 24×24 grid                   |
+| `cap`       | `"round" \| "butt" \| "square"` | `"round"`      | Stroke line cap                                |
+| `playState` | `"running" \| "paused"`         | `"running"`    |                                                |
+| `paused`    | `boolean`                       | `false`        | Shorthand for `playState="paused"`             |
+| `label`     | `string`                        | `"Loading"`    | Accessible label                               |
+| `motion`    | `"reduce" \| "always"`          | `"reduce"`     | Reduced-motion behaviour                       |
 
 ## Styling
 

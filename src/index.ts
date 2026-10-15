@@ -1,5 +1,14 @@
-export type { PlayState, SpinnerProps, StrokeCap } from "./core";
-export type { BloomProps, CountProps, RadialProps, SpinProps } from "./spinners";
+export type { PlayState, SpinnerIntent, SpinnerProps, StrokeCap } from "./core";
+export type { SpinnerGroupProps } from "./group";
+export { SpinnerGroup } from "./group";
+export type {
+  BloomProps,
+  CountProps,
+  ProgressProps,
+  RadialProps,
+  SpinProps,
+  TrackProps,
+} from "./spinners";
 export {
   Ball,
   Bars,
@@ -19,11 +28,14 @@ export {
   Lines,
   Loop,
   Moons,
+  Orbit,
   Pendulum,
   Progress,
   Radar,
   Radial,
+  Shimmer,
   Signal,
+  Spark,
   Spin,
   Spiral,
   Stretch,
@@ -35,4 +47,5 @@ export {
   Tumble,
   Twin,
   Typing,
+  Waveform,
 } from "./spinners";

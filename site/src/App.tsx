@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import { BrandPage } from "./BrandPage";
 import { ChangelogPage } from "./ChangelogPage";
 import { Overview } from "./Overview";
 import { Shell } from "./Shell";
@@ -12,6 +13,7 @@ export function App() {
         <Route index element={<Overview />} />
         <Route path="spinners/:slug" element={<SpinnerPage />} />
         <Route path="use-cases" element={<UseCasesPage />} />
+        <Route path="brand" element={<BrandPage />} />
         <Route path="changelog" element={<ChangelogPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>

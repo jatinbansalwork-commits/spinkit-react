@@ -2,10 +2,23 @@ import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 
 export type PlayState = "running" | "paused";
 export type StrokeCap = "round" | "butt" | "square";
+/** Designed size presets for common product moments. */
+export type SpinnerIntent = "button" | "inline" | "page";
+
+const INTENT_PRESETS: Record<SpinnerIntent, { size: number | string; thickness: number }> = {
+  button: { size: 16, thickness: 2 },
+  inline: { size: "1em", thickness: 2 },
+  page: { size: 36, thickness: 2.25 },
+};
 
 export interface SpinnerProps extends Omit<HTMLAttributes<HTMLSpanElement>, "color" | "children"> {
-  /** Width and height. Numbers are pixels. Default `24`. */
+  /** Width and height. Numbers are pixels. Default `24`, or from `intent` when set. */
   size?: number | string;
+  /**
+   * Size/thickness preset for common moments: `"button"` (16), `"inline"` (`1em`), `"page"` (36).
+   * Explicit `size` / `thickness` still win.
+   */
+  intent?: SpinnerIntent;
   /** Any CSS color. Defaults to `currentColor`. */
   color?: string;
   /** Length of one animation cycle, in seconds. */
@@ -54,7 +67,8 @@ export function Spinner({
   css,
   defaultDuration,
   children,
-  size = 24,
+  size,
+  intent,
   color,
   duration,
   easing,
@@ -68,7 +82,10 @@ export function Spinner({
   style,
   ...rest
 }: SpinnerBaseProps) {
-  const dimension = typeof size === "number" ? `${size}px` : size;
+  const preset = intent ? INTENT_PRESETS[intent] : undefined;
+  const resolvedSize = size ?? preset?.size ?? 24;
+  const resolvedThickness = thickness ?? preset?.thickness;
+  const dimension = typeof resolvedSize === "number" ? `${resolvedSize}px` : resolvedSize;
   const vars: Record<string, string | number> = {
     width: dimension,
     height: dimension,
@@ -77,7 +94,7 @@ export function Spinner({
   };
   if (color) vars["--sk-color"] = color;
   if (easing) vars["--sk-ease"] = easing;
-  if (thickness != null) vars["--sk-thickness"] = thickness;
+  if (resolvedThickness != null) vars["--sk-thickness"] = resolvedThickness;
   if (cap) vars["--sk-cap"] = cap;
 
   return (
